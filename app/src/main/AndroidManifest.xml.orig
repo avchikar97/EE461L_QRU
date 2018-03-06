@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -21,16 +22,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-<<<<<<< HEAD
+
+        <activity>
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
-=======
+
+        <activity>
             android:name=".StaticQR"
             android:label="@string/title_activity_static_qr"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
->>>>>>> cb9913be7411543b63e7e1ec60791617e657d14a
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
     </application>
 
 </manifest>

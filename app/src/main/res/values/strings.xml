@@ -1,5 +1,4 @@
 <resources>
-<<<<<<< HEAD
     <string name="app_name">QRYou</string>
     <string name="enter_email">Email address</string>
     <string name="title_activity_login">QRYou Sign in</string>
@@ -17,10 +16,8 @@
         completions."
     </string>
     <string name="action_linkedin_signin">Sign in with LinkedIn</string>
-=======
     <string name="app_name">QRU</string>
     <string name="title_activity_static_qr">StaticQR</string>
 
 
->>>>>>> cb9913be7411543b63e7e1ec60791617e657d14a
 </resources>
