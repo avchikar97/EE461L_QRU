@@ -28,4 +28,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':mysql-connector-java-5.1.45-bin')
     compile 'com.google.android.gms:play-services-vision:11.6.0'
+    implementation project(':commons-codec-1.11')
 }
