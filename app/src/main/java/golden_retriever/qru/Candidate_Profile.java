@@ -26,6 +26,7 @@ import java.util.List;
 public class Candidate_Profile {
     String _id;
     String name;
+    String email;
 
 
 
