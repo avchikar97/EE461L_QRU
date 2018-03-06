@@ -21,25 +21,16 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-	 <activity
-            android:name=".StaticQR"
-            android:label="@string/title_activity_static_qr"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-	<activity
+        <activity
+<<<<<<< HEAD
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
         </activity>
-
-
-<<<<<<< .mine        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
-        </activity>
-=======        <activity
+=======
             android:name=".StaticQR"
             android:label="@string/title_activity_static_qr"
             android:theme="@style/AppTheme.NoActionBar"></activity>
->>>>>>> .theirs    </application>
+>>>>>>> cb9913be7411543b63e7e1ec60791617e657d14a
+    </application>
 
 </manifest>
