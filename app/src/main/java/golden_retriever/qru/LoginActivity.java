@@ -3,6 +3,7 @@ package golden_retriever.qru;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -187,6 +188,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
+
+            // start StaticQR activity
+            Intent myIntent = new Intent(LoginActivity.this, StaticQR.class);
+            myIntent.putExtra("email", email); //Optional parameters
+            LoginActivity.this.startActivity(myIntent);
         }
     }
 
