@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">QRYou</string>
     <string name="enter_email">Email address</string>
     <string name="title_activity_login">QRYou Sign in</string>
 
