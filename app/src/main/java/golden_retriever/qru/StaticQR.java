@@ -59,7 +59,7 @@ public class StaticQR extends AppCompatActivity {
                 // get barcode and set textView to contents of decoded bitmap
                 Barcode thisCode = barcodes.valueAt(0);
                 TextView txtView = (TextView) findViewById(R.id.txtView);
-                txtView.setText(thisCode.rawValue);
+                txtView.setText(thisCode.displayValue);
             }
         });
     }
