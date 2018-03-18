@@ -1,6 +1,6 @@
 package golden_retriever.qru;
 
-import com.mongodb.MongoClient;
+/*import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.ServerAddress;
 
@@ -17,7 +17,7 @@ import com.mongodb.client.result.DeleteResult;
 import static com.mongodb.client.model.Updates.*;
 import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List;*/
 
 /**
  * Created by daniel on 3/6/18.
@@ -28,11 +28,33 @@ public class Candidate_Profile {
     String name;
     String email;
 
+    public Candidate_Profile(String id, String name, String email){
+        this._id = id;
+        this.name = name;
+        this.email = email;
+    }
 
+    public String getID() {
+        return _id;
+    }
 
+    public void setID(String _id) {
+        this._id = _id;
+    }
 
-    /*MongoClientURI uri = new MongoClientURI("mongodb://461L_QRU:eatmyshorts5@qru-shard-00-00-wlzab.mongodb.net:27017,qru-shard-00-01-wlzab.mongodb.net:27017,qru-shard-00-02-wlzab.mongodb.net:27017/QRU?ssl=true&replicaSet=QRU-shard-0&authSource=admin");
+    public String getName() {
+        return name;
+    }
 
-    MongoClient mongoClient = new MongoClient(uri);
-    MongoDatabase database = mongoClient.getDatabase("QRU");*/
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

@@ -2,7 +2,8 @@ package golden_retriever.qru;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import javax.xml.bind.DatatypeConverter;
+import org.apache.commons.codec.binary.Hex;
+
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
@@ -17,22 +18,22 @@ public class RandomAPIKeyGen {
         keyGen.init(keyLen);
         SecretKey secretKey = keyGen.generateKey();
         byte[] encoded = secretKey.getEncoded();
-        return DatatypeConverter.printHexBinary(encoded).toLowerCase();
+        return Hex.encodeHexString(encoded, true);
     }
 
     public static String generate2(final int keyLen) throws NoSuchAlgorithmException {
 
         SecureRandom random = new SecureRandom();
-        byte bytes[] = new byte[keyLen/8];
+        byte bytes[] = new byte[keyLen / 8];
         random.nextBytes(bytes);
-        return DatatypeConverter.printHexBinary(bytes).toLowerCase();
+        return Hex.encodeHexString(bytes, true);
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         String key = null;
         for(int i=0; i< 5; ++i) {
             try {
-                key = RandomAESKeyGen.generate(128);
+                key = RandomAPIKeyGen.generate(128);
             } catch (NoSuchAlgorithmException e) {
                 System.out.println("Exception caught");
                 e.printStackTrace();
@@ -43,7 +44,7 @@ public class RandomAPIKeyGen {
 
         for(int i=0; i< 5; ++i) {
             try {
-                key = RandomAESKeyGen.generate(256);
+                key = RandomAPIKeyGen.generate(256);
             } catch (NoSuchAlgorithmException e) {
                 System.out.println("Exception caught");
                 e.printStackTrace();
@@ -54,7 +55,7 @@ public class RandomAPIKeyGen {
 
         for(int i=0; i< 5; ++i) {
             try {
-                key = RandomAESKeyGen.generate2(128);
+                key = RandomAPIKeyGen.generate2(128);
             } catch (NoSuchAlgorithmException e) {
                 System.out.println("Exception caught");
                 e.printStackTrace();
@@ -65,12 +66,12 @@ public class RandomAPIKeyGen {
 
         for(int i=0; i< 5; ++i) {
             try {
-                key = RandomAESKeyGen.generate2(256);
+                key = RandomAPIKeyGen.generate2(256);
             } catch (NoSuchAlgorithmException e) {
                 System.out.println("Exception caught");
                 e.printStackTrace();
             }
             System.out.println(key);
         }
-    }
+    }*/
 }

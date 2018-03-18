@@ -18,5 +18,9 @@
     <string name="app_name">QRU</string>
     <string name="title_activity_static_qr">StaticQR</string>
 
+    <!-- Register Strings -->
+
+    <string name="push_register">Register</string>
+
 
 </resources>
