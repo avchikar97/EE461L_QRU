@@ -29,7 +29,7 @@ public class StaticQR extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final TextView txtView =(TextView) findViewById(R.id.txtView);
-        Button btn = (Button) findViewById(R.id.button);
+        Button btn = (Button) findViewById(R.id.qr_button);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,8 +58,8 @@ public class StaticQR extends AppCompatActivity {
 
                 // get barcode and set textView to contents of decoded bitmap
                 Barcode thisCode = barcodes.valueAt(0);
-                TextView txtView = (TextView) findViewById(R.id.txtContent);
-                txtView.setText(thisCode.rawValue);
+                TextView txtView = (TextView) findViewById(R.id.txtView);
+                txtView.setText(thisCode.displayValue);
             }
         });
     }

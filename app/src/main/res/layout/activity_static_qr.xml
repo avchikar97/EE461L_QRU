@@ -20,10 +20,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
+
+
     <TextView android:id="@+id/txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         ></TextView>
+
+    <ImageView
+        android:id="@+id/imgview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ></ImageView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -32,5 +40,13 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <Button
+        android:id="@+id/qr_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="this is a button"
+        android:layout_marginTop="100dp"
+        ></Button>
 
 </android.support.design.widget.CoordinatorLayout>
