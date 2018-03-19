@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('US_export_policy.jar'))
