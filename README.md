@@ -1,4 +1,4 @@
-#### QRU
+# QRU
 
 
 ## Executive Abstract
