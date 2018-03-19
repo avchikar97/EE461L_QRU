@@ -1,3 +1,6 @@
+#### QRU
+
+
 ## Executive Abstract
 This document proposes QRU,  an Android application that facilitates quality connections between recruiters and students, reduces the amount of idle time at job fairs, and promotes a sustainable alternative to printed resumes. Aimed at students, campus recruiters, and job fair personnel, we show how the proposed application uses QR codes, LinkedIn integration, and cloud storage to store and transmit company and student data between recruiters and students. We propose four unique user personas for QRU, and include a UML case diagram and use case diagram to illustrate the main modules in our proposed design and how each unique user persona will interact with the application. Furthermore, we outline the non-functional requirements of our project including storage, cost, performance, and our reliance on third-party APIS, and examine potential testing plans and relevant intellectual property concerns for our application. 
 
