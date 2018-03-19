@@ -1,37 +1,24 @@
 package golden_retriever.qru;
 
-/*import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.ServerAddress;
-
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
-
-import org.bson.Document;
-import java.util.Arrays;
-import com.mongodb.Block;
-
-import com.mongodb.client.MongoCursor;
-import static com.mongodb.client.model.Filters.*;
-import com.mongodb.client.result.DeleteResult;
-import static com.mongodb.client.model.Updates.*;
-import com.mongodb.client.result.UpdateResult;
-import java.util.ArrayList;
-import java.util.List;*/
-
 /**
  * Created by daniel on 3/6/18.
  */
 
 public class Candidate_Profile {
     String _id;
-    String name;
+    String fName;
+    String lName;
     String email;
+    String password;
+    String salt;
 
-    public Candidate_Profile(String id, String name, String email){
+    public Candidate_Profile(String id, String fname, String lname, String email, String password, String salt){
         this._id = id;
-        this.name = name;
+        this.fName = fname;
+        this.lName = lname;
         this.email = email;
+        this.password = password;
+        this.salt = salt;
     }
 
     public String getID() {
@@ -42,12 +29,20 @@ public class Candidate_Profile {
         this._id = _id;
     }
 
-    public String getName() {
-        return name;
+    public String getfName() {
+        return fName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setfName(String fName) {
+        this.fName = fName;
+    }
+
+    public String getlName() {
+        return lName;
+    }
+
+    public void setlName(String lName) {
+        this.lName = lName;
     }
 
     public String getEmail() {
@@ -56,5 +51,21 @@ public class Candidate_Profile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 }

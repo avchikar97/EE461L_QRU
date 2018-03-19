@@ -1,1 +1,1 @@
-include ':app', ':mysql-connector-java-5.1.45-bin', ':commons-codec-1.11'
+include ':app', ':mysql-connector-java-5.1.45-bin', ':commons-codec-1.11', ':mongodb-driver-3.4.3', ':mongodb-driver-core-3.4.3', ':bson-3.4.3', ':core-1.58.0.0', ':prov-1.58.0.0', ':bcpg-jdk15on-1.58.0.0', ':bcpkix-jdk15on-1.58.0.0', ':local_policy', ':US_export_policy', ':mongo-java-driver-3.4.0-SNAPSHOT'
