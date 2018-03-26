@@ -25,6 +25,9 @@
     <string name="error_pw_no_match">Passwords do not match</string>
     <string name="title_activity_recruiter_main">RecruiterMain</string>
     <string name="title_activity_student_main">StudentMain</string>
+    <string name="title_activity_update_student_portfolio">UpdateStudentPortfolio</string>
+    <string name="title_activity_update_student_profile">UpdateStudentProfile</string>
+    <string name="title_activity_update_recruiter_profile">UpdateRecruiterProfile</string>
 
 
 </resources>

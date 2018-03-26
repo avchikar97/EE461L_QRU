@@ -8,16 +8,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="golden_retriever.qru.RecruiterMain">
+    tools:context="golden_retriever.qru.StudentMain">
 
 
     <ScrollView
-        android:id="@+id/recruiter_main_form"
+        android:id="@+id/student_main_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/recruiter_main_layout"
+            android:id="@+id/student_main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -27,7 +27,7 @@
                 android:text="Welcome to your candidate hub!"/>
 
             <Button
-                android:id="@+id/new_scan_btn"
+                android:id="@+id/student_scan_btn"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/update_recruiter_profile_btn"
+                android:id="@+id/submit_student_profile_btn"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

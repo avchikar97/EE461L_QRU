@@ -11,14 +11,19 @@ public class Candidate_Profile {
     String email;
     String password;
     String salt;
+    String major;
+    float GPA;
 
-    public Candidate_Profile(String id, String fname, String lname, String email, String password, String salt){
+    public Candidate_Profile(String id, String fname, String lname, String email, String password, String salt, String major, float GPA){
         this._id = id;
         this.fName = fname;
         this.lName = lname;
         this.email = email;
         this.password = password;
         this.salt = salt;
+        this.major = major;
+        this.GPA = GPA;
+
     }
 
     public String getID() {
@@ -67,5 +72,21 @@ public class Candidate_Profile {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public float getGPA() {
+        return GPA;
+    }
+
+    public void setGPA(float GPA) {
+        this.GPA = GPA;
     }
 }

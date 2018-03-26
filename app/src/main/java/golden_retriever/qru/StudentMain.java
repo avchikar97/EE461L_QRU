@@ -22,7 +22,7 @@ public class StudentMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
 
-        updateProfileButton = (Button) findViewById(R.id.update_recruiter_profile_btn);
+        updateProfileButton = (Button) findViewById(R.id.update_student_profile_btn);
         updateProfileButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -31,7 +31,7 @@ public class StudentMain extends AppCompatActivity {
             }
         });
 
-        newScanButton = (Button) findViewById(R.id.scan_button);
+        newScanButton = (Button) findViewById(R.id.student_scan_btn);
         newScanButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

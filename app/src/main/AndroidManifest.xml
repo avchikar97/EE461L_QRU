@@ -46,6 +46,14 @@
         <activity
             android:name=".StudentMain"
             android:label="@string/title_activity_student_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UpdateStudentProfile"
+            android:label="@string/title_activity_update_student_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UpdateRecruiterProfile"
+            android:label="@string/title_activity_update_recruiter_profile"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
