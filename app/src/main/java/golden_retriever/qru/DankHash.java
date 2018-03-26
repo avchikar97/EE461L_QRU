@@ -25,7 +25,8 @@ import java.math.BigInteger;
  */
 
 
-public class DankHash{
+public class
+DankHash{
     static{
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }

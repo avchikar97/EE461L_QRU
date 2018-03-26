@@ -25,6 +25,9 @@
     <TextView android:id="@+id/txtView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Scan your QRCode now!"
+        android:textSize="25dp"
+        android:layout_centerHorizontal="true"
         ></TextView>
 
     <ImageView
@@ -33,19 +36,15 @@
         android:layout_height="wrap_content"
         ></ImageView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+
 
     <Button
-        android:id="@+id/qr_button"
+        android:id="@+id/scan_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="this is a button"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="SCAN"
         android:layout_marginTop="100dp"
         ></Button>
 

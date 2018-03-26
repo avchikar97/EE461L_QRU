@@ -19,49 +19,47 @@ import android.widget.TextView;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
+import android.content.Intent;
+import android.widget.Toast;
 
 public class StaticQR extends AppCompatActivity {
+    private Button scan_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_static_qr);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        final TextView txtView =(TextView) findViewById(R.id.txtView);
-        Button btn = (Button) findViewById(R.id.qr_button);
-        btn.setOnClickListener(new View.OnClickListener() {
+        scan_btn = (Button) findViewById(R.id.scan_button);
+        final Activity activity = this;
+        scan_btn.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v) {
-
-                // load the QR image -- static rn
-                ImageView myImageView = (ImageView) findViewById(R.id.imgview);
-                Bitmap myBitmap = BitmapFactory.decodeResource(
-                        getApplicationContext().getResources(),
-                        R.drawable.puppy);
-                myImageView.setImageBitmap(myBitmap);
-
-                // build QRCode reader
-                BarcodeDetector detector =
-                        new BarcodeDetector.Builder(getApplicationContext())
-                                .setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE)
-                                .build();
-                if(!detector.isOperational()){
-                    txtView.setText("Could not set up the detector!");
-                    return;
-                }
-
-                // detect barcode... barcodes is array of all barcodes in the frame
-                Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
-                SparseArray<Barcode> barcodes = detector.detect(frame);
-
-
-                // get barcode and set textView to contents of decoded bitmap
-                Barcode thisCode = barcodes.valueAt(0);
-                TextView txtView = (TextView) findViewById(R.id.txtView);
-                txtView.setText(thisCode.displayValue);
+            public void onClick(View view){
+                IntentIntegrator integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+                integrator.setPrompt("Scan");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
             }
+
         });
     }
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if(result.getContents() == null){
+                Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
 
+                // add functionality to use the detected string to access database, stuff like that 
+            }
+        } else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }
