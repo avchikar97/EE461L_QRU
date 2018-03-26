@@ -12,9 +12,10 @@ public class Candidate_Profile {
     String password;
     String salt;
     String major;
-    float GPA;
+    String GPA;
+    String specialNotes;
 
-    public Candidate_Profile(String id, String fname, String lname, String email, String password, String salt, String major, float GPA){
+    public Candidate_Profile(String id, String fname, String lname, String email, String password, String salt, String major, String GPA, String specialNotes){
         this._id = id;
         this.fName = fname;
         this.lName = lname;
@@ -82,11 +83,19 @@ public class Candidate_Profile {
         this.major = major;
     }
 
-    public float getGPA() {
+    public String getGPA() {
         return GPA;
     }
 
-    public void setGPA(float GPA) {
+    public void setGPA(String GPA) {
         this.GPA = GPA;
+    }
+
+    public String getSpecialNotes() {
+        return specialNotes;
+    }
+
+    public void setSpecialNotes(String s) {
+        this.specialNotes = s;
     }
 }

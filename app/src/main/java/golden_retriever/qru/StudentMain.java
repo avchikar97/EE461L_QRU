@@ -22,12 +22,14 @@ public class StudentMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
 
-        updateProfileButton = (Button) findViewById(R.id.update_student_profile_btn);
+        updateProfileButton = (Button) findViewById(R.id.submit_student_profile_btn);
         updateProfileButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
 
-                // go to student update profile activity
+                Intent myIntent = new Intent(StudentMain.this, UpdateStudentProfile.class);
+                myIntent.putExtra("profiletype", "Student");
+                StudentMain.this.startActivity(myIntent);
             }
         });
 

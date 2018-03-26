@@ -70,4 +70,14 @@ public class Recruiter_Profile {
     public void setSalt(String salt) {
         this.salt = salt;
     }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+
 }

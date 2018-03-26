@@ -63,9 +63,12 @@
                     android:background="@android:drawable/btn_dropdown"
                     android:spinnerMode="dropdown"
                     ></Spinner>
-
-        </LinearLayout><
-
+        </LinearLayout>
+            <EditText
+                android:id="@+id/student_update_profile_special_notes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Any special considerations for employers to note"/>
             <Button
                 android:id="@+id/submit_student_profile_btn"
                 style="?android:textAppearanceSmall"
