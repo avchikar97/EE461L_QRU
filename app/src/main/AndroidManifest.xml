@@ -28,16 +28,25 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".StaticQR"
             android:label="@string/title_activity_static_qr"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RegisterActivity"
-            android:exported="true"></activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RecruiterMain"
+            android:label="@string/title_activity_recruiter_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".StudentMain"
+            android:label="@string/title_activity_student_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

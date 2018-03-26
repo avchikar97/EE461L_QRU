@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Spinner selectEntitySpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        // set up dropdown for recruiter, student
+        selectEntitySpinner = findViewById(R.id.entitySpinner);
+        selectEntitySpinner.setPrompt("Select a profile");
+        List<String> profiles = new ArrayList<String>();
+        profiles.add("Student");
+        profiles.add("Recruiter");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_spinner_item, profiles);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectEntitySpinner.setAdapter(adapter);
     }
 
     private void populateAutoComplete() {
@@ -156,6 +169,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String profileType = (String) selectEntitySpinner.getSelectedItem();
 
         boolean cancel = false;
         View focusView = null;
@@ -178,6 +192,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        // check that drop-down list was selected
+
+        if(selectEntitySpinner == null || profileType ==null){
+            mEmailView.setError("Please select a valid profile type.");
+            focusView = selectEntitySpinner;
+            cancel = true;
+        }
+
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -189,10 +212,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
 
-            // start StaticQR activity
-            Intent myIntent = new Intent(LoginActivity.this, StaticQR.class);
-            myIntent.putExtra("email", email); //Optional parameters
-            LoginActivity.this.startActivity(myIntent);
+            // start Main activity depending on different types of profile
+            if (profileType.equals("Recruiter")){
+                Intent myIntent = new Intent(LoginActivity.this, RecruiterMain.class);
+                myIntent.putExtra("email", email); //Optional parameters
+                LoginActivity.this.startActivity(myIntent);
+            } else {
+                Intent myIntent = new Intent(LoginActivity.this, StudentMain.class);
+                myIntent.putExtra("email", email); //Optional parameters
+                LoginActivity.this.startActivity(myIntent);
+            }
+
         }
     }
 

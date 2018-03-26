@@ -23,6 +23,8 @@
     <string name="push_register">Register</string>
     <string name="error_no_confirm_pw">Please confirm your password</string>
     <string name="error_pw_no_match">Passwords do not match</string>
+    <string name="title_activity_recruiter_main">RecruiterMain</string>
+    <string name="title_activity_student_main">StudentMain</string>
 
 
 </resources>

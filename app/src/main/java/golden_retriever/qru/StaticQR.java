@@ -52,11 +52,12 @@ public class StaticQR extends AppCompatActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if(result.getContents() == null){
-                Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
 
-                // add functionality to use the detected string to access database, stuff like that 
+                // add functionality to use the detected string to access database, stuff like that
             }
         } else{
             super.onActivityResult(requestCode, resultCode, data);
