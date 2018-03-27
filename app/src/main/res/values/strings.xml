@@ -28,6 +28,7 @@
     <string name="title_activity_update_student_portfolio">UpdateStudentPortfolio</string>
     <string name="title_activity_update_student_profile">UpdateStudentProfile</string>
     <string name="title_activity_update_recruiter_profile">UpdateRecruiterProfile</string>
+    <string name="title_activity_static_qrgenerator">StaticQRGenerator</string>
 
 
 </resources>
