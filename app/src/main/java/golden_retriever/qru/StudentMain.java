@@ -16,6 +16,8 @@ import org.w3c.dom.Text;
 public class StudentMain extends AppCompatActivity {
     private Button updateProfileButton;
     private Button newScanButton;
+    private Button getStudentQRCodeButton;
+    private Button uploadPDFButton;
     private TextView welcomeMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,26 @@ public class StudentMain extends AppCompatActivity {
             }
         });
 
+        getStudentQRCodeButton = (Button) findViewById(R.id.generate_student_QR_btn);
+        getStudentQRCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(StudentMain.this, StaticQRGenerator.class);
+                myIntent.putExtra("profiletype", "Student");
+                StudentMain.this.startActivity(myIntent);
+            }
+        });
+
+        uploadPDFButton = (Button) findViewById(R.id.upload_resume_btn);
+        uploadPDFButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(StudentMain.this, UpdateStudentProfile.class);
+                myIntent.putExtra("profiletype", "Student");
+                StudentMain.this.startActivity(myIntent);
+            }
+        });
 
     }
 

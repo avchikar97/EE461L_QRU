@@ -44,6 +44,17 @@
                 android:text="Update Student Profile"
                 android:textStyle="bold"
                 />
+            <Button
+                android:id="@+id/generate_student_QR_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Generate My QR Code"/>
+
+            <Button
+                android:id="@+id/upload_resume_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Upload my resume"/>
 
 
 
