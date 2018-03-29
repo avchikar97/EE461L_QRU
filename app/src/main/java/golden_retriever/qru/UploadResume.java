@@ -11,6 +11,7 @@ public class UploadResume extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_resume);
+        hello =
         hello.setText("hello!");
     }
 }

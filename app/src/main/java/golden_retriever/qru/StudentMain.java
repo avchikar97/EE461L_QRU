@@ -61,7 +61,7 @@ public class StudentMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent myIntent = new Intent(StudentMain.this, UpdateStudentProfile.class);
+                Intent myIntent = new Intent(StudentMain.this, UploadResume.class);
                 myIntent.putExtra("profiletype", "Student");
                 StudentMain.this.startActivity(myIntent);
             }

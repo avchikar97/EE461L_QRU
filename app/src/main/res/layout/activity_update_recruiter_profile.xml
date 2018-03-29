@@ -29,34 +29,34 @@
                     android:id="@+id/recruiter_update_profile_firstname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="First Name"/>
+                    android:hint="First Name"/>
                 <EditText
                     android:id="@+id/recruiter_update_profile_lastname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Last Name"/>
+                    android:hint="Last Name"/>
                 <EditText
                     android:id="@+id/recruiter_update_profile_company"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Company Name"/>
+                    android:hint="Company Name"/>
                 <EditText
                     android:id="@+id/recruiter_update_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Email"/>
+                    android:hint="Email"/>
                 <EditText
                     android:id="@+id/recruiter_update_profile_company_about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="About your company"/>
+                    android:hint="About your company"/>
             </LinearLayout>
 
             <EditText
                 android:id="@+id/recruiter_update_profile_positions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Positions"/>
+                android:hint="Positions"/>
 
             <Button
                 android:id="@+id/submit_recruiter_profile_btn"
