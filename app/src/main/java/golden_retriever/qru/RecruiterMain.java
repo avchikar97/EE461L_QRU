@@ -27,7 +27,9 @@ public class RecruiterMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // go to update profile activity
+                Intent myIntent = new Intent(RecruiterMain.this, UpdateRecruiterProfile.class);
+                myIntent.putExtra("profiletype", "Recruiter");
+                RecruiterMain.this.startActivity(myIntent);
             }
         });
 

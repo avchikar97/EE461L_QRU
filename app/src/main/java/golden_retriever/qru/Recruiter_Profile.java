@@ -6,29 +6,50 @@ package golden_retriever.qru;
 
 public class Recruiter_Profile {
     String _id;
+    String salt;
+    String password;
     String fName;
     String lName;
     String email;
-    String password;
-    String salt;
     String companyName;
+    String companyAbout;
+    String companyPositions;
 
-    public Recruiter_Profile(String id, String fname, String lname, String email, String password, String salt, String companyName){
+    Recruiter_Profile(String id, String salt, String password, String fName, String lName, String email, String companyName, String companyAbout,
+                      String comapnyPositions){
         this._id = id;
-        this.fName = fname;
-        this.lName = lname;
-        this.email = email;
-        this.password = password;
         this.salt = salt;
+        this.password = password;
+        this.fName = fName;
+        this.lName = lName;
+        this.email = email;
         this.companyName = companyName;
+        this.companyAbout = companyAbout;
+        this.companyPositions = companyPositions;
     }
 
-    public String getID() {
+    public String get_id() {
         return _id;
     }
 
-    public void setID(String _id) {
+    public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getfName() {
@@ -55,28 +76,28 @@ public class Recruiter_Profile {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
     public String getCompanyName() {
         return companyName;
     }
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getCompanyAbout() {
+        return companyAbout;
+    }
+
+    public void setCompanyAbout(String companyAbout) {
+        this.companyAbout = companyAbout;
+    }
+
+    public String getCompanyPositions() {
+        return companyPositions;
+    }
+
+    public void setCompanyPositions(String companyPositions) {
+        this.companyPositions = companyPositions;
     }
 
 
