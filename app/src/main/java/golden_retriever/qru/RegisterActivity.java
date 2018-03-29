@@ -49,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText pwField1;
     private EditText pwField2;
 
+    protected RestClient testing = new RestClient();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -56,12 +58,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        MongoClientURI uri = new MongoClientURI("mongodb://461L_QRU:test1234@qru-shard-00-00-wlzab.mongodb.net:27017,qru-shard-00-01-wlzab.mongodb.net:27017,qru-shard-00-02-wlzab.mongodb.net:27017/test?ssl=true&replicaSet=QRU-shard-0&authSource=admin");
-        mongoClient = new MongoClient(uri);
-        database = mongoClient.getDatabase("QRU");
-
-        collection = database.getCollection("test");
 
         emailField = findViewById(R.id.email);
         fNameField = findViewById(R.id.first_name);
@@ -187,6 +183,6 @@ public class RegisterActivity extends AppCompatActivity {
                 .append("passWord", pw)
                 .append("salt", salt);
 
-        collection.insertOne(newUser);
+        testing.getIT();
     }
 }
