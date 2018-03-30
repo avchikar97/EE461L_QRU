@@ -16,6 +16,7 @@ import org.w3c.dom.Text;
 public class RecruiterMain extends AppCompatActivity {
     private Button updateProfileButton;
     private Button newScanButton;
+    private Button generateQRCodeButton;
     private TextView welcomeMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +28,28 @@ public class RecruiterMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // go to update profile activity
+                Intent myIntent = new Intent(RecruiterMain.this, UpdateRecruiterProfile.class);
+                myIntent.putExtra("profiletype", "Recruiter");
+                RecruiterMain.this.startActivity(myIntent);
             }
         });
 
-        newScanButton = (Button) findViewById(R.id.scan_button);
+        newScanButton = (Button) findViewById(R.id.new_scan_btn);
         newScanButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(RecruiterMain.this, StaticQR.class);
+                myIntent.putExtra("profiletype", "Recruiter");
+                RecruiterMain.this.startActivity(myIntent);
+            }
+        });
+
+        generateQRCodeButton = (Button) findViewById(R.id.generate_recruiter_QR_btn);
+        generateQRCodeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(RecruiterMain.this, StaticQRGenerator.class);
                 myIntent.putExtra("profiletype", "Recruiter");
                 RecruiterMain.this.startActivity(myIntent);
             }
