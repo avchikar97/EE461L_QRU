@@ -1,11 +1,14 @@
 package golden_retriever.qru;
 
+import android.nfc.Tag;
 import android.os.StrictMode;
+import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Build.VERSION.*;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,40 +17,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.ServerAddress;
-
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoCollection;
-
-import org.bson.Document;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
-import com.mongodb.Block;
 
-import com.mongodb.client.MongoCursor;
-import static com.mongodb.client.model.Filters.*;
-import com.mongodb.client.result.DeleteResult;
-import static com.mongodb.client.model.Updates.*;
-import static golden_retriever.qru.DankHash.hashPassword;
-
-import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
 import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
-    private MongoClient mongoClient;
-    private MongoDatabase database;
-    MongoCollection<Document> collection;
 
     private EditText emailField;
     private EditText fNameField;
     private EditText lNameField;
     private EditText pwField1;
     private EditText pwField2;
+
+    public static final String TAG = "RegClient";
 
     protected RestClient testing = new RestClient();
 
@@ -177,12 +165,25 @@ public class RegisterActivity extends AppCompatActivity {
             salt = hashAndSalt.substring(hashAndSalt.indexOf(" "), hashAndSalt.length() - 1);
         }
 
-        Document newUser = new Document("email", email)
+        /*Document newUser = new Document("email", email)
                 .append("firstName", firstName)
                 .append("lastName", lastName)
                 .append("passWord", pw)
-                .append("salt", salt);
+                .append("salt", salt);*/
 
-        testing.getIT();
+        JSONObject newUser = new JSONObject();
+        try {
+            newUser.put("email", email)
+                .put("firstName", firstName)
+                .put("lastName", lastName)
+                .put("passWord", pw)
+                .put("salt", salt);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+        //Log.d(TAG, newUser.toString());
+
+        //testing.getIT();
+        testing.postIT(newUser);
     }
 }
