@@ -1,0 +1,8 @@
+{
+	"CLOUD_PROJECT": "qru-nodejs",
+  "CLOUD_BUCKET": "qru-node",
+  "DATA_BACKEND": "datastore",
+  "OAUTH2_CLIENT_ID": "131921524797-7c3858qtfvmujheovhit8lnohamfgvsb.apps.googleusercontent.com",
+  "OAUTH2_CLIENT_SECRET": "TZ2Ta1yltwOrLV2B5aq6QMI8",
+  "OAUTH2_CALLBACK": "http://localhost:8080/auth/google/callback"
+}
