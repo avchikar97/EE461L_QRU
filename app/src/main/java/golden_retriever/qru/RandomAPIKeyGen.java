@@ -2,7 +2,6 @@ package golden_retriever.qru;
 
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import org.apache.commons.codec.binary.Hex;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
