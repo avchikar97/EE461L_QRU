@@ -165,15 +165,18 @@ public class RegisterActivity extends AppCompatActivity {
             salt = hashAndSalt.substring(hashAndSalt.indexOf(" "), hashAndSalt.length() - 1);
         }
 
-        /*Document newUser = new Document("email", email)
-                .append("firstName", firstName)
-                .append("lastName", lastName)
-                .append("passWord", pw)
-                .append("salt", salt);*/
+        String id = new String();
+
+        try {
+            id = RandomAPIKeyGen.generate(96);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
 
         JSONObject newUser = new JSONObject();
         try {
-            newUser.put("email", email)
+            newUser.put("_id", id)
+                .put("email", email)
                 .put("firstName", firstName)
                 .put("lastName", lastName)
                 .put("passWord", pw)
@@ -181,9 +184,29 @@ public class RegisterActivity extends AppCompatActivity {
         } catch(JSONException e) {
             e.printStackTrace();
         }
-        //Log.d(TAG, newUser.toString());
 
-        //testing.getIT();
-        testing.postIT(newUser);
+        String theMail = new String("762A784708A3");
+
+        //double b = 12345678;
+
+        JSONObject get = new JSONObject();
+        try{
+            get.put("_id", theMail);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject insert = new JSONObject();
+        try{
+            insert.put("School", "University of Texas at Austin");
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d(TAG, newUser.toString());
+
+        testing.getIT(get);
+        //testing.postIT(newUser);
+        //testing.updateIT(insert, "5ac24a964bb7953fc5a4a9fc");
     }
 }
