@@ -3,18 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/EE461L_QRU.iml" filepath="$PROJECT_DIR$/EE461L_QRU.iml" />
-      <module fileurl="file://$PROJECT_DIR$/US_export_policy/US_export_policy.iml" filepath="$PROJECT_DIR$/US_export_policy/US_export_policy.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bcpg-jdk15on-1.58.0.0/bcpg-jdk15on-1.58.0.0.iml" filepath="$PROJECT_DIR$/bcpg-jdk15on-1.58.0.0/bcpg-jdk15on-1.58.0.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/bcpkix-jdk15on-1.58.0.0/bcpkix-jdk15on-1.58.0.0.iml" filepath="$PROJECT_DIR$/bcpkix-jdk15on-1.58.0.0/bcpkix-jdk15on-1.58.0.0.iml" />
-      <module fileurl="file://$PROJECT_DIR$/bson-3.4.3/bson-3.4.3.iml" filepath="$PROJECT_DIR$/bson-3.4.3/bson-3.4.3.iml" />
       <module fileurl="file://$PROJECT_DIR$/commons-codec-1.11/commons-codec-1.11.iml" filepath="$PROJECT_DIR$/commons-codec-1.11/commons-codec-1.11.iml" />
       <module fileurl="file://$PROJECT_DIR$/core-1.58.0.0/core-1.58.0.0.iml" filepath="$PROJECT_DIR$/core-1.58.0.0/core-1.58.0.0.iml" />
-      <module fileurl="file://$PROJECT_DIR$/local_policy/local_policy.iml" filepath="$PROJECT_DIR$/local_policy/local_policy.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongo-java-driver-3.4.0-SNAPSHOT/mongo-java-driver-3.4.0-SNAPSHOT.iml" filepath="$PROJECT_DIR$/mongo-java-driver-3.4.0-SNAPSHOT/mongo-java-driver-3.4.0-SNAPSHOT.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongodb-driver-3.4.3/mongodb-driver-3.4.3.iml" filepath="$PROJECT_DIR$/mongodb-driver-3.4.3/mongodb-driver-3.4.3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mongodb-driver-core-3.4.3/mongodb-driver-core-3.4.3.iml" filepath="$PROJECT_DIR$/mongodb-driver-core-3.4.3/mongodb-driver-core-3.4.3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mysql-connector-java-5.1.45-bin/mysql-connector-java-5.1.45-bin.iml" filepath="$PROJECT_DIR$/mysql-connector-java-5.1.45-bin/mysql-connector-java-5.1.45-bin.iml" />
       <module fileurl="file://$PROJECT_DIR$/prov-1.58.0.0/prov-1.58.0.0.iml" filepath="$PROJECT_DIR$/prov-1.58.0.0/prov-1.58.0.0.iml" />
     </modules>
   </component>

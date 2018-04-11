@@ -8,18 +8,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/US_export_policy" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bcpg-jdk15on-1.58.0.0" />
             <option value="$PROJECT_DIR$/bcpkix-jdk15on-1.58.0.0" />
-            <option value="$PROJECT_DIR$/bson-3.4.3" />
             <option value="$PROJECT_DIR$/commons-codec-1.11" />
             <option value="$PROJECT_DIR$/core-1.58.0.0" />
-            <option value="$PROJECT_DIR$/local_policy" />
-            <option value="$PROJECT_DIR$/mongo-java-driver-3.4.0-SNAPSHOT" />
-            <option value="$PROJECT_DIR$/mongodb-driver-3.4.3" />
-            <option value="$PROJECT_DIR$/mongodb-driver-core-3.4.3" />
-            <option value="$PROJECT_DIR$/mysql-connector-java-5.1.45-bin" />
             <option value="$PROJECT_DIR$/prov-1.58.0.0" />
           </set>
         </option>
