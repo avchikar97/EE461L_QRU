@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="golden_retriever.qru">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -31,13 +33,6 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login" />
-        <activity
-            android:name=".StaticQR"
-            android:label="@string/title_activity_static_qr"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".RegisterActivity"
             android:exported="true" />
         <activity
@@ -60,7 +55,15 @@
             android:name=".StaticQRGenerator"
             android:label="@string/title_activity_static_qrgenerator"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UploadResume"></activity>
+        <activity
+            android:name=".UploadResume">
+           <!-- <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+
     </application>
 
 </manifest>
