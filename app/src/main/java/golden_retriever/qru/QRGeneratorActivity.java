@@ -16,7 +16,7 @@ package golden_retriever.qru;
         import com.google.zxing.common.BitMatrix;
         import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-public class StaticQRGenerator extends AppCompatActivity {
+public class QRGeneratorActivity extends AppCompatActivity {
     EditText text;
     Button gen_btn;
     ImageView image;

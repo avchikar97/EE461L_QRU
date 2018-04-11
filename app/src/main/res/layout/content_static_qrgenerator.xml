@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="golden_retriever.qru.StaticQRGenerator"
+    tools:context="golden_retriever.qru.QRGeneratorActivity"
     tools:showIn="@layout/activity_static_qrgenerator">
 
 </android.support.constraint.ConstraintLayout>
