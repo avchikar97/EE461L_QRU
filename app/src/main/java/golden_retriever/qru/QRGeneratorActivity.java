@@ -16,7 +16,7 @@ package golden_retriever.qru;
         import com.google.zxing.common.BitMatrix;
         import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-public class StaticQRGenerator extends AppCompatActivity {
+public class QRGeneratorActivity extends AppCompatActivity {
     EditText text;
     Button gen_btn;
     ImageView image;
@@ -33,19 +33,10 @@ public class StaticQRGenerator extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 text2Qr = text.getText().toString().trim();
-                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
-                try
-                {
-                    BitMatrix bitMatrix = multiFormatWriter.encode("text2Qr", BarcodeFormat.QR_CODE, 200, 200);
-                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
-                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-
-                    image.setImageBitmap(bitmap);
-                }
-                catch(WriterException e)
-                {
-                    e.printStackTrace();
-                }
+                QRGenerator QRGen = QRGenerator.getInstance();
+                Bitmap bitmap = QRGenerator.getQRCode("text2QR");
+                image.setImageBitmap(bitmap);
+                Bitmap bitmap2 = QRGenerator.getQRCode("hello");
             }
         });
     }

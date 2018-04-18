@@ -25,7 +25,7 @@ import com.google.zxing.integration.android.IntentResult;
 import android.content.Intent;
 import android.widget.Toast;
 
-public class StaticQR extends AppCompatActivity {
+public class QRReaderActivity extends AppCompatActivity {
     private Button scan_btn;
 
     @Override
