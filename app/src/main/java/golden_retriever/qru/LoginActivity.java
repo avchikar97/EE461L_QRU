@@ -129,6 +129,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button createNewAccountButton = (Button) findViewById(R.id.create_acc_button);
+        createNewAccountButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                LoginActivity.this.startActivity(myIntent);
+            }
+        });
+
         // set up dropdown for recruiter, student
         selectEntitySpinner = findViewById(R.id.entitySpinner);
         selectEntitySpinner.setPrompt("Select a profile");
