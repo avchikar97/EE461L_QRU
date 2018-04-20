@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="C:\Users\kevin_000\Documents\GitHub\EE461L_QRU\linkedin-sdk\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="C:\Users\kevin_000\Documents\GitHub\EE461L_QRU\linkedin-sdk\src\debug\jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/src/main/jniLibs"/></dataSet><dataSet config="debug"><source path="/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/src/debug/jniLibs"/></dataSet></merger>
