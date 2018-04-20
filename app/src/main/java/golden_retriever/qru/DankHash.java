@@ -63,7 +63,7 @@ DankHash{
         byte[] hash = key.generateSecret(spec).getEncoded();
         return String.format("%x", new BigInteger(hash));
     }
-
+    
     public static void testProvider() throws NoSuchAlgorithmException, InvalidKeySpecException{
         //Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
 
