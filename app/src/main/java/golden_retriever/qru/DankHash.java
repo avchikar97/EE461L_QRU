@@ -25,11 +25,12 @@ import java.math.BigInteger;
  */
 
 
-public class
-DankHash{
+public class DankHash{
     static{
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
+
+    public static final String TAG = "RestClient";
 
     private static final int ITERATIONS = 1000;
     private static final int KEY_LENGTH = 192;  //bits

@@ -257,13 +257,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Check if password is correct
-        String hashed;
+        String hashed = null;
         try {
-            hashed = DankHash.hashPassword(password);
+            hashed = DankHash.checkPassword(password, hold.getString("salt"));
         } catch(NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch(InvalidKeySpecException e) {
             e.printStackTrace();
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+        if(hold.has("passWord")){
+            try {
+                Log.d(TAG, "Entered: " + hashed + " Database: " + hold.getString("passWord"));
+                if (!hashed.equals(hold.getString("passWord"))) {
+                    mPasswordView.setError("Password is not correct");
+                    focusView = mPasswordView;
+                    cancel = true;
+                }
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         // check that drop-down list was selected
@@ -518,16 +532,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-<<<<<<< HEAD
     @Override
     public void processFinish(JSONObject output){
         hold = output;
     }
-=======
+
     private static Scope buildScope(){
         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
     }
 
->>>>>>> 967fc47b689e24f3b9220b3997ba141a3e3687b4
+
 }
 
