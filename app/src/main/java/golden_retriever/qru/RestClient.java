@@ -29,7 +29,7 @@ public class RestClient {
 
     public RestClient(){}
 
-    public void getIT(final JSONObject query){
+    public void getIT(final JSONObject query, Candidate_Profile profile){
         AsyncTask.execute(new Runnable() {
             @Override   
             public void run() {
@@ -60,6 +60,11 @@ public class RestClient {
                     inputStream.close();
                     httpURLConnection.disconnect();
                     Log.d(TAG, result);
+                    try{
+                        JSONObject theResult = new JSONObject(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {

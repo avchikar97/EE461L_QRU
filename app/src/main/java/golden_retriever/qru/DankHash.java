@@ -53,6 +53,17 @@ DankHash{
         return salt;
     }
 
+    public static String checkPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException{
+        char[] passwordChars = password.toCharArray();
+        byte[] saltBytes = salt.getBytes();
+
+        SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+
+        PBEKeySpec spec = new PBEKeySpec(passwordChars, saltBytes, ITERATIONS, 64 * 8);
+        byte[] hash = key.generateSecret(spec).getEncoded();
+        return String.format("%x", new BigInteger(hash));
+    }
+
     public static void testProvider() throws NoSuchAlgorithmException, InvalidKeySpecException{
         //Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
 

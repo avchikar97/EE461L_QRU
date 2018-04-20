@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,15 +32,22 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, AsyncResponse {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -56,6 +64,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
+    public static final String TAG = "LoginClient";
+
     private UserLoginTask mAuthTask = null;
 
     // UI references.
@@ -64,6 +74,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private Spinner selectEntitySpinner;
+
+    private JSONObject hold;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +183,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
         String profileType = (String) selectEntitySpinner.getSelectedItem();
 
+        RestAsync rest = new RestAsync(this);
+
+        JSONObject emailCheck = new JSONObject();
+        try {
+            emailCheck.put("email", email);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        rest.setType("GET");
+        rest.execute(emailCheck);
+
+        try{
+            hold = rest.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e ) {
+            e.printStackTrace();
+        }
+
         boolean cancel = false;
         View focusView = null;
 
@@ -192,6 +224,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        // Check if email is registered
+        if(!hold.has("salt")){
+            Log.d(TAG, "INVALID EMAIL ALREADY EXISTS");
+            mEmailView.setError("This email is not registered");
+            focusView = mEmailView;
+            cancel = true;
+        }
+
+        // Check if password is correct
+        String hashed;
+        try {
+            hashed = DankHash.hashPassword(password);
+        } catch(NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch(InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+
         // check that drop-down list was selected
 
         if(selectEntitySpinner == null || profileType ==null){
@@ -199,6 +249,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = selectEntitySpinner;
             cancel = true;
         }
+
 
 
         if (cancel) {
@@ -381,6 +432,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    @Override
+    public void processFinish(JSONObject output){
+        hold = output;
     }
 }
 

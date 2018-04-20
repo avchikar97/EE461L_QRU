@@ -26,14 +26,17 @@ import java.util.Arrays;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements AsyncResponse {
 
     private EditText emailField;
     private EditText fNameField;
     private EditText lNameField;
     private EditText pwField1;
     private EditText pwField2;
+
+    JSONObject hold = null;
 
     public static final String TAG = "RegClient";
 
@@ -52,6 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
         lNameField = findViewById(R.id.last_name);
         pwField1 = findViewById(R.id.password1);
         pwField2 = findViewById(R.id.password2);
+
+
 
         Button registerButton = findViewById(R.id.register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -75,8 +80,35 @@ public class RegisterActivity extends AppCompatActivity {
         String pw1 = pwField1.getText().toString();
         String pw2 = pwField2.getText().toString();
 
+        RestAsync rest = new RestAsync(this);
+
+        JSONObject emailCheck = new JSONObject();
+        try {
+            emailCheck.put("email", email);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        rest.setType("GET");
+        rest.execute(emailCheck);
+
+        try{
+            hold = rest.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e ) {
+            e.printStackTrace();
+        }
+
         boolean cancel = false;
         View focusView = null;
+
+        if(hold.has("salt")){
+            Log.d(TAG, "INVALID EMAIL ALREADY EXISTS");
+            emailField.setError("This email is already registered");
+            focusView = emailField;
+            cancel = true;
+        }
 
         if(!TextUtils.isEmpty(pw1) && !isPasswordValid(pw1)) {
             pwField1.setError(getString(R.string.error_invalid_password));
@@ -129,6 +161,7 @@ public class RegisterActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             try {
+                hold = null;
                 registration(email, pw1, fName, lName);
             } catch(BadHashAndSaltException e) {
                 e.printStackTrace();
@@ -205,8 +238,24 @@ public class RegisterActivity extends AppCompatActivity {
 
         Log.d(TAG, newUser.toString());
 
-        testing.getIT(get);
+        RestAsync yeah = new RestAsync(this);
+        yeah.setType("POST");
+
+        yeah.execute(newUser);
+
+
+        Intent sendIT = new Intent(RegisterActivity.this, LoginActivity.class);
+        sendIT.putExtra("JSON", newUser.toString());
+        startActivity(sendIT);
+
+        //Log.d(TAG, hold.toString());
+
         //testing.postIT(newUser);
         //testing.updateIT(insert, "5ac24a964bb7953fc5a4a9fc");
+    }
+
+    @Override
+    public void processFinish(JSONObject output){
+        hold = output;
     }
 }

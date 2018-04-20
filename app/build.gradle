@@ -35,12 +35,12 @@ dependencies {
     compile 'com.google.android.gms:play-services-vision:11.6.0'
     compile 'com.google.zxing:core:3.2.1'
     compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+    compile 'com.nbsp:library:1.8'
     implementation project(':bcpg-jdk15on-1.58.0.0')
     implementation project(':bcpkix-jdk15on-1.58.0.0')
     implementation project(':commons-codec-1.11')
     implementation project(':core-1.58.0.0')
     implementation project(':prov-1.58.0.0')
-    compile 'com.nbsp:library:1.8'
 }
 
 
