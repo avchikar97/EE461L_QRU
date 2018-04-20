@@ -212,18 +212,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         JSONObject emailCheck = new JSONObject();
         try {
             emailCheck.put("email", email);
-        } catch(JSONException e) {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
         rest.setType("GET");
         rest.execute(emailCheck);
 
-        try{
+        try {
             hold = rest.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } catch (ExecutionException e ) {
+        } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
@@ -249,7 +249,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Check if email is registered
-        if(!hold.has("salt")){
+        if (!hold.has("salt")) {
             Log.d(TAG, "INVALID EMAIL ALREADY EXISTS");
             mEmailView.setError("This email is not registered");
             focusView = mEmailView;
@@ -260,20 +260,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String hashed;
         try {
             hashed = DankHash.hashPassword(password);
-        } catch(NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-        } catch(InvalidKeySpecException e) {
+        } catch (InvalidKeySpecException e) {
             e.printStackTrace();
         }
 
         // check that drop-down list was selected
 
-        if(selectEntitySpinner == null || profileType ==null){
+        if (selectEntitySpinner == null || profileType == null) {
             mEmailView.setError("Please select a valid profile type.");
             focusView = selectEntitySpinner;
             cancel = true;
         }
-
 
 
         if (cancel) {
@@ -288,7 +287,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask.execute((Void) null);
 
             // start Main activity depending on different types of profile
-            if (profileType.equals("Recruiter")){
+            if (profileType.equals("Recruiter")) {
                 Intent myIntent = new Intent(LoginActivity.this, RecruiterMain.class);
                 myIntent.putExtra("email", email); //Optional parameters
                 LoginActivity.this.startActivity(myIntent);
@@ -301,7 +300,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private void attempt_LILogin(){
+    private void attempt_LILogin() {
         LISessionManager.getInstance(getApplicationContext()).init(thisActivity, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {
@@ -325,7 +324,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, data);
     }
 
-    private void fetchInfo(){
+    private void fetchInfo() {
         String url = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name, email-address)";
 
         APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
@@ -351,17 +350,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public static boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         int contain = 0;
-        for(int i = 0; i < email.length(); i++)
-        {
-            if (String.valueOf(email.charAt(i)).equals("@"))
-            {
+        for (int i = 0; i < email.length(); i++) {
+            if (String.valueOf(email.charAt(i)).equals("@")) {
                 contain++;
             }
         }
 
-        if(contain != 1) return false;
-        if((email.substring(0, email.indexOf('@')).length() < 1) ||
-            (email.substring(email.indexOf('@') + 1, email.length()).length() < 1) ||
+        if (contain != 1) return false;
+        if ((email.substring(0, email.indexOf('@')).length() < 1) ||
+                (email.substring(email.indexOf('@') + 1, email.length()).length() < 1) ||
                 (!email.contains(".com"))) return false;
         return true;
     }
@@ -518,16 +515,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-<<<<<<< HEAD
+
     @Override
-    public void processFinish(JSONObject output){
+    public void processFinish(JSONObject output) {
         hold = output;
     }
-=======
-    private static Scope buildScope(){
+
+    private static Scope buildScope() {
         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
     }
-
->>>>>>> 967fc47b689e24f3b9220b3997ba141a3e3687b4
 }
 
