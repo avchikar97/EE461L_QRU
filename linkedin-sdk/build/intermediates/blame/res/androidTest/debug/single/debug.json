@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< HEAD
         "merged": "/home/daniel/AndroidStudioProjects/EE461L_QRU/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_ic_launcher.png.flat",
         "source": "/home/daniel/AndroidStudioProjects/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/drawable-mdpi-v4/ic_launcher.png"
     },
@@ -14,5 +15,21 @@
     {
         "merged": "/home/daniel/AndroidStudioProjects/EE461L_QRU/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_ic_launcher.png.flat",
         "source": "/home/daniel/AndroidStudioProjects/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/drawable-hdpi-v4/ic_launcher.png"
+=======
+        "merged": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_ic_launcher.png.flat",
+        "source": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/drawable-mdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_ic_launcher.png.flat",
+        "source": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/drawable-xhdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_ic_launcher.png.flat",
+        "source": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/drawable-hdpi-v4/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_ic_launcher.png.flat",
+        "source": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/drawable-xxhdpi-v4/ic_launcher.png"
+>>>>>>> 8f846bd1b7c1d4f4a1d6cfb8c18203f144b91908
     }
 ]

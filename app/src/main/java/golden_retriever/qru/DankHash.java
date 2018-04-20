@@ -30,7 +30,7 @@ public class DankHash{
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
     }
 
-    public static final String TAG = "RestClient";
+    public static final String TAG = "DANKClient";
 
     private static final int ITERATIONS = 1000;
     private static final int KEY_LENGTH = 192;  //bits

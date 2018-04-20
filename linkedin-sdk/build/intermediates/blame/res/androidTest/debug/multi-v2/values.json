@@ -1,10 +1,17 @@
 {
     "logs": [
         {
+<<<<<<< HEAD
             "outputFile": "/home/daniel/AndroidStudioProjects/EE461L_QRU/linkedin-sdk/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
             "map": [
                 {
                     "source": "/home/daniel/AndroidStudioProjects/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/values/values.xml",
+=======
+            "outputFile": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+            "map": [
+                {
+                    "source": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/values/values.xml",
+>>>>>>> 8f846bd1b7c1d4f4a1d6cfb8c18203f144b91908
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
