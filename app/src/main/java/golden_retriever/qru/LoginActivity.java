@@ -3,22 +3,20 @@ package golden_retriever.qru;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,6 +29,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIApiError;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
+import com.linkedin.platform.utils.Scope;
+import com.linkedin.platform.listeners.AuthListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,6 +79,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private UserLoginTask mAuthTask = null;
 
+    /**
+     * LinkedIn Variables
+     */
+    private final LoginActivity thisActivity = this;
+
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -97,6 +113,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mLinkedinSignInButton = (Button) findViewById(R.id.linkedin_sign_in_button);
+        mLinkedinSignInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attempt_LILogin();
+            }
+        });
+
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -104,9 +131,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 attemptLogin();
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
 
         // set up dropdown for recruiter, student
         selectEntitySpinner = findViewById(R.id.entitySpinner);
@@ -277,12 +301,72 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+    private void attempt_LILogin(){
+        LISessionManager.getInstance(getApplicationContext()).init(thisActivity, buildScope(), new AuthListener() {
+            @Override
+            public void onAuthSuccess() {
+                // Authentication was successful.  You can now do
+                // other calls with the SDK.
+                Toast.makeText(getApplicationContext(), "success ", Toast.LENGTH_LONG).show();
+                fetchInfo();
+            }
+
+            @Override
+            public void onAuthError(LIAuthError error) {
+                // Handle authentication errors
+                Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }, true);
     }
 
-    private boolean isPasswordValid(String password) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Add this line to your existing onActivityResult() method
+        LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, data);
+    }
+
+    private void fetchInfo(){
+        String url = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name, email-address)";
+
+        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+        apiHelper.getRequest(this, url, new ApiListener() {
+            @Override
+            public void onApiSuccess(ApiResponse apiResponse) {
+                // Success!
+                JSONObject jsonObject = apiResponse.getResponseDataAsJson();
+                try {
+                    String email = jsonObject.getString("emailAddress");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onApiError(LIApiError liApiError) {
+                // Error making GET request!
+            }
+        });
+    }
+
+    public static boolean isEmailValid(String email) {
+        //TODO: Replace this with your own logic
+        int contain = 0;
+        for(int i = 0; i < email.length(); i++)
+        {
+            if (String.valueOf(email.charAt(i)).equals("@"))
+            {
+                contain++;
+            }
+        }
+
+        if(contain != 1) return false;
+        if((email.substring(0, email.indexOf('@')).length() < 1) ||
+            (email.substring(email.indexOf('@') + 1, email.length()).length() < 1) ||
+                (!email.contains(".com"))) return false;
+        return true;
+    }
+
+    public static boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
@@ -434,9 +518,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+<<<<<<< HEAD
     @Override
     public void processFinish(JSONObject output){
         hold = output;
     }
+=======
+    private static Scope buildScope(){
+        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
+    }
+
+>>>>>>> 967fc47b689e24f3b9220b3997ba141a3e3687b4
 }
 

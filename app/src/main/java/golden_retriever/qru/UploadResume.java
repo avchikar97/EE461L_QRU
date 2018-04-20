@@ -15,6 +15,10 @@ import android.widget.Toast;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Pattern;
 
 public class UploadResume extends AppCompatActivity {
@@ -56,6 +60,11 @@ public class UploadResume extends AppCompatActivity {
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             // Do anything with file
+            try
+            {
+                byte[] bArray = loadFile(filePath);
+            }
+            catch (IOException e) {e.printStackTrace();}
             textView.setText(filePath);
         }
     }
@@ -75,5 +84,37 @@ public class UploadResume extends AppCompatActivity {
         }
 
 
+    }
+
+
+
+    public static byte[] readFully(InputStream stream) throws IOException
+    {
+        byte[] buffer = new byte[8192];
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        int bytesRead;
+        while ((bytesRead = stream.read(buffer)) != -1)
+        {
+            baos.write(buffer, 0, bytesRead);
+        }
+        return baos.toByteArray();
+    }
+
+    public static byte[] loadFile(String sourcePath) throws IOException
+    {
+        InputStream inputStream = null;
+        try
+        {
+            inputStream = new FileInputStream(sourcePath);
+            return readFully(inputStream);
+        }
+        finally
+        {
+            if (inputStream != null)
+            {
+                inputStream.close();
+            }
+        }
     }
 }

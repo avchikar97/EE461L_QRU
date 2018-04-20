@@ -2,6 +2,8 @@ package golden_retriever.qru;
 
 import org.junit.Test;
 
+import java.util.regex.Matcher;
+import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -13,5 +15,10 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+        assertThat(LoginActivity.isEmailValid("kevin@gmail.com"), is(true));
+        assertThat(LoginActivity.isEmailValid("4head"), is(false));
+        assertThat(LoginActivity.isEmailValid("@@@"), is(false));
+        assertThat(LoginActivity.isEmailValid("a@b"), is(false));
+        assertThat(LoginActivity.isEmailValid("a@b.com"), is(true));
     }
 }
