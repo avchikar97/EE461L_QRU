@@ -1,8 +1,27 @@
 package golden_retriever.qru;
 
+import org.json.JSONObject;
+
+import java.io.Serializable;
+
 /**
- * Created by daniel on 4/20/18.
+ * Created by Akaash Chikarmane on 4/20/2018.
  */
 
-public class myJSONWrapper {
+public class myJSONWrapper implements Serializable {
+    public JSONObject getJSONObject() {
+        return mJSONObject;
+    }
+
+    myJSONWrapper(JSONObject mJSON){
+        super();
+        this.mJSONObject = mJSON;
+    }
+
+    public void setJSONObject(JSONObject JSONObject) {
+        mJSONObject = JSONObject;
+    }
+
+    JSONObject mJSONObject;
+
 }

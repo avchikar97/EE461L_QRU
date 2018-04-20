@@ -7,7 +7,9 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -18,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -47,6 +50,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
@@ -83,6 +87,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * LinkedIn Variables
      */
     private final LoginActivity thisActivity = this;
+    private LISessionManager mLISessionManager;
+    private myJSONWrapper mLIResponse;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -302,13 +308,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void attempt_LILogin(){
-        LISessionManager.getInstance(getApplicationContext()).init(thisActivity, buildScope(), new AuthListener() {
+        mLISessionManager = LISessionManager.getInstance(getApplicationContext());
+        mLISessionManager.init(thisActivity, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {
                 // Authentication was successful.  You can now do
                 // other calls with the SDK.
                 Toast.makeText(getApplicationContext(), "success ", Toast.LENGTH_LONG).show();
                 fetchInfo();
+                startWithLI();
             }
 
             @Override
@@ -326,16 +334,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void fetchInfo(){
-        String url = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name, email-address)";
+        String url = "https://api.linkedin.com/v1/people/~?format=json:(id,first-name,last-name,email-address)";
 
         APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
         apiHelper.getRequest(this, url, new ApiListener() {
             @Override
             public void onApiSuccess(ApiResponse apiResponse) {
                 // Success!
-                JSONObject jsonObject = apiResponse.getResponseDataAsJson();
+                mLIResponse = new myJSONWrapper(apiResponse.getResponseDataAsJson());
+                JSONObject LI_JSON = mLIResponse.getJSONObject();
                 try {
-                    String email = jsonObject.getString("emailAddress");
+                    String firstName = LI_JSON.getString("firstName");
+                    String lastName = LI_JSON.getString("lastName");
+                    String fullName = firstName + " " + lastName;
+                    String email = LI_JSON.getString("emailAddress");
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -346,6 +359,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Error making GET request!
             }
         });
+    }
+
+    private void startWithLI(){
+        String profileType = (String) selectEntitySpinner.getSelectedItem();
+        if (profileType.equals("Recruiter")){
+            Intent myIntent = new Intent(LoginActivity.this, RecruiterMain.class);
+            myIntent.putExtra("LIResponse", mLIResponse); //Optional parameters
+            LoginActivity.this.startActivity(myIntent);
+        } else {
+            Intent myIntent = new Intent(LoginActivity.this, StudentMain.class);
+            myIntent.putExtra("LIResponse", mLIResponse); //Optional parameters
+            LoginActivity.this.startActivity(myIntent);
+        }
+    }
+
+    void generatePackageHash(){
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo("golden_retriever.qru",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch(PackageManager.NameNotFoundException| NoSuchAlgorithmException e) {
+        }
     }
 
     public static boolean isEmailValid(String email) {
@@ -518,16 +557,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-<<<<<<< HEAD
     @Override
     public void processFinish(JSONObject output){
         hold = output;
     }
-=======
+
     private static Scope buildScope(){
         return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
     }
 
->>>>>>> 967fc47b689e24f3b9220b3997ba141a3e3687b4
 }
 
