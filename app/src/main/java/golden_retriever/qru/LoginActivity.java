@@ -297,12 +297,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
     }
 
-    private boolean isEmailValid(String email) {
+    public static boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        int contain = 0;
+        for(int i = 0; i < email.length(); i++)
+        {
+            if (String.valueOf(email.charAt(i)).equals("@"))
+            {
+                contain++;
+            }
+        }
+
+        if(contain != 1) return false;
+        if((email.substring(0, email.indexOf('@')).length() < 1) ||
+            (email.substring(email.indexOf('@') + 1, email.length()).length() < 1) ||
+                (!email.contains(".com"))) return false;
+        return true;
     }
 
-    private boolean isPasswordValid(String password) {
+    public static boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
     }
