@@ -9,7 +9,6 @@
       <module fileurl="file://$PROJECT_DIR$/commons-codec-1.11/commons-codec-1.11.iml" filepath="$PROJECT_DIR$/commons-codec-1.11/commons-codec-1.11.iml" />
       <module fileurl="file://$PROJECT_DIR$/core-1.58.0.0/core-1.58.0.0.iml" filepath="$PROJECT_DIR$/core-1.58.0.0/core-1.58.0.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" filepath="$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" />
-      <module fileurl="file://$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" filepath="$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/prov-1.58.0.0/prov-1.58.0.0.iml" filepath="$PROJECT_DIR$/prov-1.58.0.0/prov-1.58.0.0.iml" />
     </modules>
   </component>
