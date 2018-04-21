@@ -3,6 +3,7 @@
     package="golden_retriever.qru">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -19,11 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity
             android:name=".QRReaderActivity"
@@ -57,13 +58,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UploadResume">
-           <!-- <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
