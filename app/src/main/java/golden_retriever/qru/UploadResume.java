@@ -129,8 +129,8 @@ public class UploadResume extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your interaction with " + firstName + " " +lastName);
         emailIntent.putExtra(Intent.EXTRA_TEXT, "hello!");
         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content:" + "/" + pathToFile));
-        View view = findViewById(R.id.txtView);
-        view.getContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
+
+        this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
 
 
     }
