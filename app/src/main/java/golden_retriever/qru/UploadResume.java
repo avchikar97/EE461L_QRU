@@ -3,6 +3,7 @@ package golden_retriever.qru;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -60,6 +61,8 @@ public class UploadResume extends AppCompatActivity {
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             // Do anything with file
+
+            sendMail("mjohnson082396@gmail.com", "Matt", "Johnson", filePath);
             try
             {
                 byte[] bArray = loadFile(filePath);
@@ -116,5 +119,19 @@ public class UploadResume extends AppCompatActivity {
                 inputStream.close();
             }
         }
+    }
+
+    public void sendMail(String email, String firstName, String lastName, String pathToFile){
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        // The intent does not have a URI, so declare the "text/plain" MIME type
+        emailIntent.setType("text/html");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email}); // recipients
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your interaction with " + firstName + " " +lastName);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "hello!");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content:" + "/" + pathToFile));
+        View view = findViewById(R.id.txtView);
+        view.getContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
+
+
     }
 }

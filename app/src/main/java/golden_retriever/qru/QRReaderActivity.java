@@ -1,5 +1,6 @@
 package golden_retriever.qru;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,8 +26,12 @@ import com.google.zxing.integration.android.IntentResult;
 import android.content.Intent;
 import android.widget.Toast;
 
+import static android.support.v4.content.ContextCompat.startActivity;
+import static java.net.Proxy.Type.HTTP;
+
 public class QRReaderActivity extends AppCompatActivity {
     private Button scan_btn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +61,12 @@ public class QRReaderActivity extends AppCompatActivity {
                         this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
-
-                // add functionality to use the detected string to access database, stuff like that
+                    // do database stuff
             }
         } else{
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+
 }
