@@ -8,12 +8,15 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/activation" />
+            <option value="$PROJECT_DIR$/additional" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/bcpg-jdk15on-1.58.0.0" />
             <option value="$PROJECT_DIR$/bcpkix-jdk15on-1.58.0.0" />
             <option value="$PROJECT_DIR$/commons-codec-1.11" />
             <option value="$PROJECT_DIR$/core-1.58.0.0" />
             <option value="$PROJECT_DIR$/linkedin-sdk" />
+            <option value="$PROJECT_DIR$/mail" />
             <option value="$PROJECT_DIR$/prov-1.58.0.0" />
           </set>
         </option>
