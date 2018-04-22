@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,9 +19,11 @@ import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.util.regex.Pattern;
 
 public class UploadResume extends AppCompatActivity {
@@ -28,6 +32,15 @@ public class UploadResume extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(Build.VERSION.SDK_INT>=24){
+            try{
+                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+                m.invoke(null);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_resume);
 
@@ -62,7 +75,10 @@ public class UploadResume extends AppCompatActivity {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
             // Do anything with file
 
-            sendMail("mjohnson082396@gmail.com", "Matt", "Johnson", filePath);
+            Log.d("D", filePath);
+            String filename = filePath.substring(filePath.lastIndexOf("/")+1);
+            File file = new File(filePath);
+            sendMail("mjohnson082396@gmail.com", "Matt", "Johnson", file);
             try
             {
                 byte[] bArray = loadFile(filePath);
@@ -121,15 +137,15 @@ public class UploadResume extends AppCompatActivity {
         }
     }
 
-    public void sendMail(String email, String firstName, String lastName, String pathToFile){
+    public void sendMail(String email, String firstName, String lastName, File file){
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         // The intent does not have a URI, so declare the "text/plain" MIME type
         emailIntent.setType("text/html");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email}); // recipients
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your interaction with " + firstName + " " +lastName);
         emailIntent.putExtra(Intent.EXTRA_TEXT, "hello!");
-        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content:" + "/" + pathToFile));
-
+        //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:/" + file.getAbsolutePath()));
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
 
 
