@@ -8,11 +8,8 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/bcpg-jdk15on-1.58.0.0/bcpg-jdk15on-1.58.0.0.iml" filepath="$PROJECT_DIR$/bcpg-jdk15on-1.58.0.0/bcpg-jdk15on-1.58.0.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/bcpkix-jdk15on-1.58.0.0/bcpkix-jdk15on-1.58.0.0.iml" filepath="$PROJECT_DIR$/bcpkix-jdk15on-1.58.0.0/bcpkix-jdk15on-1.58.0.0.iml" />
-      <module fileurl="file://$PROJECT_DIR$/commons-codec-1.11/commons-codec-1.11.iml" filepath="$PROJECT_DIR$/commons-codec-1.11/commons-codec-1.11.iml" />
       <module fileurl="file://$PROJECT_DIR$/commons-codec-1.4/commons-codec-1.4.iml" filepath="$PROJECT_DIR$/commons-codec-1.4/commons-codec-1.4.iml" />
       <module fileurl="file://$PROJECT_DIR$/core-1.58.0.0/core-1.58.0.0.iml" filepath="$PROJECT_DIR$/core-1.58.0.0/core-1.58.0.0.iml" />
-      <module fileurl="file://$PROJECT_DIR$/google-api-client-1.23.0/google-api-client-1.23.0.iml" filepath="$PROJECT_DIR$/google-api-client-1.23.0/google-api-client-1.23.0.iml" />
-      <module fileurl="file://$PROJECT_DIR$/google-api-client-android-1.23.0/google-api-client-android-1.23.0.iml" filepath="$PROJECT_DIR$/google-api-client-android-1.23.0/google-api-client-android-1.23.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" filepath="$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/mail/mail.iml" filepath="$PROJECT_DIR$/mail/mail.iml" />
       <module fileurl="file://$PROJECT_DIR$/prov-1.58.0.0/prov-1.58.0.0.iml" filepath="$PROJECT_DIR$/prov-1.58.0.0/prov-1.58.0.0.iml" />

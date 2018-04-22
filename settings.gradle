@@ -1,1 +1,1 @@
-include ':app', ':commons-codec-1.11', ':core-1.58.0.0', ':prov-1.58.0.0', ':bcpg-jdk15on-1.58.0.0', ':bcpkix-jdk15on-1.58.0.0', ':linkedin-sdk', ':activation', ':additional', ':mail', ':commons-codec-1.4', ':google-api-client-android-1.23.0', ':google-api-client-1.23.0'
+include ':app', ':core-1.58.0.0', ':prov-1.58.0.0', ':bcpg-jdk15on-1.58.0.0', ':bcpkix-jdk15on-1.58.0.0', ':linkedin-sdk', ':activation', ':additional', ':mail', ':commons-codec-1.4'
