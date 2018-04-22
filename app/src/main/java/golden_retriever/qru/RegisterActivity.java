@@ -181,22 +181,27 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
 
     private void registration(String email, String password, String firstName, String lastName) throws BadHashAndSaltException{
         String hashAndSalt = null;
+        DankHash test = new DankHash();
         String pw;
         String salt;
+        //byte[] salt;
         try {
-            hashAndSalt = DankHash.hashPassword(password);
+            test.hashPassword(password);
         } catch(NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch(InvalidKeySpecException e) {
             e.printStackTrace();
         }
 
-        if(hashAndSalt.equals(null)){
+        /*if(hashAndSalt.equals(null)){
             throw new BadHashAndSaltException("Something is wrong");
         } else {
             pw = hashAndSalt.substring(0, hashAndSalt.indexOf(" "));
             salt = hashAndSalt.substring(hashAndSalt.indexOf(" "), hashAndSalt.length() - 1);
-        }
+        }*/
+
+        pw = test.getPassword();
+        salt = test.getTheSalt();
 
         String id = new String();
 

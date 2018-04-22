@@ -263,12 +263,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // Check if password is correct
-        String hashed;
+        String hashed = null;
         try {
-            hashed = DankHash.hashPassword(password);
+            hashed = DankHash.checkPassword(password, hold.getString("salt"));
+            Log.d(TAG, "Provided password: " + hold.getString("passWord") + " What I got: " + hashed);
+            if(!hashed.equals(hold.getString("passWord"))){
+                mPasswordView.setError("Password is incorrect");
+                focusView = mPasswordView;
+                cancel = true;
+            }
         } catch(NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch(InvalidKeySpecException e) {
+            e.printStackTrace();
+        } catch(JSONException e) {
             e.printStackTrace();
         }
 

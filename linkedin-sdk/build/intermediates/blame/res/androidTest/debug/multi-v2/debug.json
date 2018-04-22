@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/values_values.arsc.flat",
+            "outputFile": "/home/daniel/AndroidStudioProjects/EE461L_QRU/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/values_values.arsc.flat",
             "map": [
                 {
-                    "source": "/Users/mattjohnson/Desktop/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/values/values.xml",
+                    "source": "/home/daniel/AndroidStudioProjects/EE461L_QRU/linkedin-sdk/build/intermediates/packaged_res/debug/values/values.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",
