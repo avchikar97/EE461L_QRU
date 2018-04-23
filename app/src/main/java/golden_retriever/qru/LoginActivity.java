@@ -138,16 +138,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent theIntent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(theIntent);
+            }
+        });
+
         // set up dropdown for recruiter, student
-        selectEntitySpinner = findViewById(R.id.entitySpinner);
-        selectEntitySpinner.setPrompt("Select a profile");
-        List<String> profiles = new ArrayList<String>();
-        profiles.add("Student");
-        profiles.add("Recruiter");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_spinner_item, profiles);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        selectEntitySpinner.setAdapter(adapter);
+//        selectEntitySpinner = findViewById(R.id.entitySpinner);
+//        selectEntitySpinner.setPrompt("Select a profile");
+//        List<String> profiles = new ArrayList<String>();
+//        profiles.add("Student");
+//        profiles.add("Recruiter");
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+//                android.R.layout.simple_spinner_item, profiles);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        selectEntitySpinner.setAdapter(adapter);
     }
 
     private void populateAutoComplete() {
@@ -211,7 +220,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
-        String profileType = (String) selectEntitySpinner.getSelectedItem();
+        String profileType = null;
+        String ID = null;
 
         RestAsync rest = new RestAsync(this);
 
@@ -266,11 +276,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String hashed = null;
         try {
             hashed = DankHash.checkPassword(password, hold.getString("salt"));
-            Log.d(TAG, "Provided password: " + hold.getString("passWord") + " What I got: " + hashed);
+            //Log.d(TAG, "Provided password: " + hold.getString("passWord") + " What I got: " + hashed);
             if(!hashed.equals(hold.getString("passWord"))){
                 mPasswordView.setError("Password is incorrect");
                 focusView = mPasswordView;
                 cancel = true;
+            } else {
+                profileType = hold.getString("profileType");
+                ID = hold.getString("_id");
             }
         } catch(NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -281,14 +294,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         // check that drop-down list was selected
-
-        if(selectEntitySpinner == null || profileType ==null){
-            mEmailView.setError("Please select a valid profile type.");
-            focusView = selectEntitySpinner;
-            cancel = true;
-        }
-
-
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -305,10 +310,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (profileType.equals("Recruiter")){
                 Intent myIntent = new Intent(LoginActivity.this, RecruiterMain.class);
                 myIntent.putExtra("email", email); //Optional parameters
+                myIntent.putExtra("ID", ID);
                 LoginActivity.this.startActivity(myIntent);
             } else {
                 Intent myIntent = new Intent(LoginActivity.this, StudentMain.class);
                 myIntent.putExtra("email", email); //Optional parameters
+                myIntent.putExtra("ID", ID);
                 LoginActivity.this.startActivity(myIntent);
             }
 

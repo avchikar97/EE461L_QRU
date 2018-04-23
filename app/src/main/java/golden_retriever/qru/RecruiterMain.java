@@ -12,10 +12,14 @@ public class RecruiterMain extends AppCompatActivity {
     private Button newScanButton;
     private Button generateQRCodeButton;
     private TextView welcomeMessage;
+
+    private String ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recruiter_main);
+
+        ID = getIntent().getStringExtra("ID");
 
         updateProfileButton = (Button) findViewById(R.id.update_recruiter_profile_btn);
         updateProfileButton.setOnClickListener(new View.OnClickListener(){
@@ -24,6 +28,7 @@ public class RecruiterMain extends AppCompatActivity {
 
                 Intent myIntent = new Intent(RecruiterMain.this, UpdateRecruiterProfile.class);
                 myIntent.putExtra("profiletype", "Recruiter");
+                myIntent.putExtra("ID", ID);
                 RecruiterMain.this.startActivity(myIntent);
             }
         });

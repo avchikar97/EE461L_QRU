@@ -24,6 +24,7 @@ import golden_retriever.qru.Candidate_Profile;
 
 public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
     public static final String TAG = "RestClient";
+    private static final String NODE_IP = "35.194.32.181";
 
     private String type;
     private String id;
@@ -36,6 +37,10 @@ public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
 
     public void setType(String a){
         type = a.toUpperCase();
+    }
+
+    public String getType() {
+        return type;
     }
 
     public void setId(String b){
@@ -65,7 +70,7 @@ public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
     public JSONObject getIT(final JSONObject query){
         // All your networking logic
         // should be here
-        String myUrl = "http://35.194.32.181:8080/route1";
+        String myUrl = "http://" + NODE_IP + ":8080/route1";
         JSONObject theResult = null;
         try{
             URL url = new URL(myUrl);
@@ -117,7 +122,7 @@ public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
     public JSONObject postIT(final JSONObject insert){
         // All your networking logic
         // should be here
-        String myUrl = "http://35.194.32.181:8080/route2";
+        String myUrl = "http://" + NODE_IP + ":8080/route2";
         JSONObject theResult = null;
         try{
             URL url = new URL(myUrl);
@@ -162,7 +167,7 @@ public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
     public JSONObject updateIT(final JSONObject insert, final String id){
         // All your networking logic
         // should be here
-        String myUrl = "http://35.194.32.181:8080/route3/";
+        String myUrl = "http://" + NODE_IP + ":8080/route3/";
         myUrl = myUrl + id;
         JSONObject theResult = null;
         try{
@@ -189,10 +194,8 @@ public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
             httpURLConnection.disconnect();
             Log.d(TAG, result);
             try{
-                JSONArray yeah = new JSONArray(result);
-                Log.d(TAG, yeah.toString());
-                theResult = yeah.getJSONObject(0);
-                Log.d(TAG, theResult.toString());
+                theResult = new JSONObject();
+                theResult.put("Message", result);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

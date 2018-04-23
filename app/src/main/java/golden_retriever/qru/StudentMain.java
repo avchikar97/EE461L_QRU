@@ -13,10 +13,14 @@ public class StudentMain extends AppCompatActivity {
     private Button getStudentQRCodeButton;
     private Button uploadPDFButton;
     private TextView welcomeMessage;
+
+    private String ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_main);
+
+        ID = getIntent().getStringExtra("ID");
 
         updateProfileButton = (Button) findViewById(R.id.submit_student_profile_btn);
         updateProfileButton.setOnClickListener(new View.OnClickListener(){
@@ -25,6 +29,7 @@ public class StudentMain extends AppCompatActivity {
 
                 Intent myIntent = new Intent(StudentMain.this, UpdateStudentProfile.class);
                 myIntent.putExtra("profiletype", "Student");
+                myIntent.putExtra("ID", ID);
                 StudentMain.this.startActivity(myIntent);
             }
         });
@@ -36,6 +41,7 @@ public class StudentMain extends AppCompatActivity {
 
                 Intent myIntent = new Intent(StudentMain.this, QRReaderActivity.class);
                 myIntent.putExtra("profiletype", "Student");
+                myIntent.putExtra("ID", ID);
                 StudentMain.this.startActivity(myIntent);
             }
         });
@@ -57,6 +63,7 @@ public class StudentMain extends AppCompatActivity {
 
                 Intent myIntent = new Intent(StudentMain.this, UploadResume.class);
                 myIntent.putExtra("profiletype", "Student");
+                myIntent.putExtra("ID", ID);
                 StudentMain.this.startActivity(myIntent);
             }
         });

@@ -6,12 +6,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class UpdateRecruiterProfile extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class UpdateRecruiterProfile extends AppCompatActivity implements AsyncResponse {
 
     private EditText profile_firstname;
     private EditText profile_lastname;
@@ -21,12 +25,19 @@ public class UpdateRecruiterProfile extends AppCompatActivity {
     private EditText profile_positions;
     private Button submit_profile_btn;
 
+    private String ID;
+    private JSONObject hold;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_recruiter_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ID = getIntent().getStringExtra("ID");
+        final RestAsync rest = new RestAsync(this);
+        rest.setId(ID);
+        rest.setType("UPDATE");
 
         profile_firstname = (EditText) findViewById(R.id.recruiter_update_profile_firstname);
         profile_lastname = (EditText) findViewById(R.id.recruiter_update_profile_lastname);
@@ -47,6 +58,20 @@ public class UpdateRecruiterProfile extends AppCompatActivity {
                 String new_about = profile_company_about.getText().toString();
                 String new_positions = profile_positions.getText().toString();
 
+                JSONObject updateUser = new JSONObject();
+                try {
+                    updateUser.put("firstName", new_firstName)
+                            .put("lastName", new_lastName)
+                            .put("company", new_company)
+                            .put("email", new_email)
+                            .put("about", new_about)
+                            .put("position", new_positions);
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                }
+
+                rest.execute(updateUser);
+
                 Recruiter_Profile new_recruiter = new Recruiter_Profile("0", "dummySalt", "dummyPass", new_firstName, new_lastName, "dummyEmail", new_company, new_about,
                         new_positions);
 
@@ -55,6 +80,11 @@ public class UpdateRecruiterProfile extends AppCompatActivity {
                 UpdateRecruiterProfile.this.startActivity(myIntent);
             }
         });
+    }
+
+    @Override
+    public void processFinish(JSONObject output){
+        hold = output;
     }
 
 }

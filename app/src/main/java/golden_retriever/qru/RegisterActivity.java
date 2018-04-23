@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -35,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
     private EditText lNameField;
     private EditText pwField1;
     private EditText pwField2;
+    private Spinner selectEntitySpinner;
 
     JSONObject hold = null;
 
@@ -56,7 +59,15 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
         pwField1 = findViewById(R.id.password1);
         pwField2 = findViewById(R.id.password2);
 
-
+        selectEntitySpinner = findViewById(R.id.entitySpinner);
+        selectEntitySpinner.setPrompt("Select account type");
+        List<String> profiles = new ArrayList<String>();
+        profiles.add("Student");
+        profiles.add("Recruiter");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_spinner_item, profiles);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        selectEntitySpinner.setAdapter(adapter);
 
         Button registerButton = findViewById(R.id.register_button);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
         String lName = lNameField.getText().toString();
         String pw1 = pwField1.getText().toString();
         String pw2 = pwField2.getText().toString();
+        String profileType = (String) selectEntitySpinner.getSelectedItem();
 
         RestAsync rest = new RestAsync(this);
 
@@ -148,6 +160,12 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
             cancel = true;
         }
 
+        if(selectEntitySpinner == null || profileType ==null){
+            emailField.setError("Please select a valid profile type.");
+            focusView = selectEntitySpinner;
+            cancel = true;
+        }
+
         if(!cancel){
             if(!pw1.equals(pw2)){
                 pwField1.setError(getString(R.string.error_pw_no_match));
@@ -162,7 +180,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
         } else {
             try {
                 hold = null;
-                registration(email, pw1, fName, lName);
+                registration(email, pw1, fName, lName, profileType);
             } catch(BadHashAndSaltException e) {
                 e.printStackTrace();
             }
@@ -179,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
         return password.length() > 4;
     }
 
-    private void registration(String email, String password, String firstName, String lastName) throws BadHashAndSaltException{
+    private void registration(String email, String password, String firstName, String lastName, String profileType) throws BadHashAndSaltException{
         String hashAndSalt = null;
         DankHash test = new DankHash();
         String pw;
@@ -217,6 +235,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
                 .put("email", email)
                 .put("firstName", firstName)
                 .put("lastName", lastName)
+                .put("profileType", profileType)
                 .put("passWord", pw)
                 .put("salt", salt);
         } catch(JSONException e) {
