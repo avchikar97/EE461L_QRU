@@ -252,6 +252,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mPasswordView;
             cancel = true;
         }
+        else if(TextUtils.isEmpty(password)){
+            password = "";
+        }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
@@ -287,10 +290,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         } catch(NoSuchAlgorithmException e) {
             e.printStackTrace();
+            mPasswordView.setError("Email/password do not match");
+            focusView = mPasswordView;
+            cancel = true;
         } catch(InvalidKeySpecException e) {
             e.printStackTrace();
+            mPasswordView.setError("Email/password do not match");
+            focusView = mPasswordView;
+            cancel = true;
         } catch(JSONException e) {
             e.printStackTrace();
+            mPasswordView.setError("Email/password do not match");
+            focusView = mPasswordView;
+            cancel = true;
         }
 
         // check that drop-down list was selected
@@ -305,20 +317,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
-
+            if(profileType == null){
+                profileType = "";
+            }
             // start Main activity depending on different types of profile
-            if (profileType.equals("Recruiter")){
+            if (profileType.equals("Recruiter")) {
                 Intent myIntent = new Intent(LoginActivity.this, RecruiterMain.class);
                 myIntent.putExtra("email", email); //Optional parameters
                 myIntent.putExtra("ID", ID);
                 LoginActivity.this.startActivity(myIntent);
-            } else {
+            } else if(profileType.equals("Student")) {
                 Intent myIntent = new Intent(LoginActivity.this, StudentMain.class);
                 myIntent.putExtra("email", email); //Optional parameters
                 myIntent.putExtra("ID", ID);
                 LoginActivity.this.startActivity(myIntent);
             }
-
         }
     }
 
