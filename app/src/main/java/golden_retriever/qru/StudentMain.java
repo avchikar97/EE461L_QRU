@@ -52,6 +52,7 @@ public class StudentMain extends AppCompatActivity {
             public void onClick(View view) {
                 Intent myIntent = new Intent(StudentMain.this, QRGeneratorActivity.class);
                 myIntent.putExtra("profiletype", "Student");
+                myIntent.putExtra("ID", ID);
                 StudentMain.this.startActivity(myIntent);
             }
         });

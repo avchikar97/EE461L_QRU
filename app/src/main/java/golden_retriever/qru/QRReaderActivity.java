@@ -69,7 +69,7 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
             } else {
                 String ID = result.getContents();
                 String firstName = "";
-                String lastName = ""
+                String lastName = "";
 
 
                 JSONObject json = getProfile(ID);
