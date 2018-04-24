@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -115,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mLinkedinSignInButton = (Button) findViewById(R.id.linkedin_sign_in_button);
+        ImageButton mLinkedinSignInButton = (ImageButton) findViewById(R.id.linkedin_sign_in_button);
         mLinkedinSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -338,7 +339,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onAuthSuccess() {
                 // Authentication was successful.  You can now do
                 // other calls with the SDK.
-                Toast.makeText(getApplicationContext(), "LinkedIn login successful", Toast.LENGTH_LONG).show();
+                String message = "LinkedIn login successful";
+                //Toast.makeText(getApplicationContext(), "LinkedIn login successful", Toast.LENGTH_LONG).show();
+                Log.d(this.getClass().toString(), message);
                 fetchInfo();
             }
 
@@ -409,8 +412,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Check if email is registered
                 if(!hold.has("salt")){
                     Log.d(TAG, "INVALID EMAIL DOES NOT EXISTS");
-                    mEmailView.setError("This email is not registered");
-                    //TODO: change to relevant
+                    mEmailView.setError("This LinkedIn account is not registered");
                     focusView = (Button) findViewById(R.id.register_button);
                 }
                 // Check if password is correct
@@ -419,7 +421,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     hashed = DankHash.checkPassword(passWord, hold.getString("salt"));
                     //Log.d(TAG, "Provided password: " + hold.getString("passWord") + " What I got: " + hashed);
                     if(!hashed.equals(hold.getString("passWord"))){
-                        //TODO: change to relevant
                         focusView = (Button) findViewById(R.id.register_button);
                     } else {
                         profileType = hold.getString("profileType");
@@ -427,15 +428,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                 } catch(NoSuchAlgorithmException e) {
                     e.printStackTrace();
-                    //TODO: change to relevant
                     focusView = (Button) findViewById(R.id.register_button);
                 } catch(InvalidKeySpecException e) {
                     e.printStackTrace();
-                    //TODO: change to relevant
                     focusView = (Button) findViewById(R.id.register_button);
                 } catch(JSONException e) {
                     e.printStackTrace();
-                    //TODO: change to relevant
                     focusView = (Button) findViewById(R.id.register_button);
                 }
 
@@ -444,7 +442,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (focusView != null) {
                     // There was an error; don't attempt login and focus the first
                     // form field with an error.
-                    Toast.makeText(getApplicationContext(), "Please register your LinkedIn account", Toast.LENGTH_LONG).show();
+                    String error_message = "Please register your LinkedIn account or a new account";
+                    Toast.makeText(getApplicationContext(), error_message, Toast.LENGTH_LONG).show();
                     focusView.requestFocus();
                 } else {
                     // Show a progress spinner, and kick off a background task to
@@ -473,6 +472,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onApiError(LIApiError liApiError) {
                 // Error making GET request!
+                Log.d(TAG, liApiError.toString());
+                Toast.makeText(getApplicationContext(), liApiError.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

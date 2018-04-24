@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -83,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
             }
         });
 
-        Button liRegisterButton = findViewById(R.id.li_register_button);
+        ImageButton liRegisterButton = (ImageButton) findViewById(R.id.li_register_button);
         liRegisterButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -100,7 +101,8 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
             public void onAuthSuccess() {
                 // Authentication was successful.  You can now do
                 // other calls with the SDK.
-                Toast.makeText(getApplicationContext(), "success ", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "success ", Toast.LENGTH_LONG).show();
+                Log.d(this.getClass().toString(), "Successful LinkedIn login");
                 fetchInfo();
                 //startWithLI();
             }
@@ -108,7 +110,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
             @Override
             public void onAuthError(LIAuthError error) {
                 // Handle authentication errors
-                Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Login failed: " + error.toString(), Toast.LENGTH_LONG).show();
             }
         }, true);
     }
@@ -170,14 +172,14 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
                 if(hold.has("salt")){
                     String error_message = "LinkedIn account already registered";
                     Log.d(TAG, error_message);
-                    emailField.setError(error_message);
+                    focusView = emailField;
+                    emailField.setError("LinkedIn account already registered");
                     Toast.makeText(getApplicationContext(), error_message, Toast.LENGTH_LONG).show();
                 }
                 if(selectEntitySpinner == null || profileType ==null){
-                    emailField.setError("Please select a valid profile type.");if(selectEntitySpinner == null || profileType ==null){
-                        emailField.setError("Please select a valid profile type.");
-                        focusView = selectEntitySpinner;
-                    }
+                    String error_message = "Please select your profile type";
+                    Toast.makeText(getApplicationContext(), error_message, Toast.LENGTH_LONG).show();
+                    focusView = selectEntitySpinner;
                 }
                 if(focusView == null) {
                     try {

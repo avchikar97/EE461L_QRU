@@ -23,15 +23,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/li_register_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/li_push_register"
-                android:textStyle="bold"/>
-
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
@@ -95,6 +86,26 @@
                 android:spinnerMode="dropdown"
                 />
 
+            <!--<Button-->
+                <!--android:id="@+id/li_register_button"-->
+                <!--style="?android:textAppearanceSmall"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:text="@string/li_push_register"-->
+                <!--android:textStyle="bold"/>-->
+
+            <ImageButton
+                android:id = "@+id/li_register_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/li_sign_in_small"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true"
+                android:padding="0pt"
+                />
+
             <Button
                 android:id="@+id/register_button"
                 style="?android:textAppearanceSmall"
@@ -103,7 +114,6 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/push_register"
                 android:textStyle="bold"/>
-
 
         </LinearLayout>
     </ScrollView>
