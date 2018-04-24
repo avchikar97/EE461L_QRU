@@ -1,30 +1,32 @@
 package golden_retriever.qru;
 
-import android.nfc.Tag;
 import android.os.StrictMode;
-import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.Build.VERSION.*;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIApiError;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
+import com.linkedin.platform.listeners.AuthListener;
+import com.linkedin.platform.utils.Scope;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,10 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
     private EditText pwField1;
     private EditText pwField2;
     private Spinner selectEntitySpinner;
+
+    private final RegisterActivity _THISACTIVITY = this;
+    private LISessionManager mLISessionManager;
+
 
     JSONObject hold = null;
 
@@ -77,6 +83,127 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
             }
         });
 
+        Button liRegisterButton = findViewById(R.id.li_register_button);
+        liRegisterButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                LI_login();
+            }
+        });
+
+    }
+
+    private void LI_login(){
+        mLISessionManager = LISessionManager.getInstance(getApplicationContext());
+        mLISessionManager.init(_THISACTIVITY, buildScope(), new AuthListener() {
+            @Override
+            public void onAuthSuccess() {
+                // Authentication was successful.  You can now do
+                // other calls with the SDK.
+                Toast.makeText(getApplicationContext(), "success ", Toast.LENGTH_LONG).show();
+                fetchInfo();
+                //startWithLI();
+            }
+
+            @Override
+            public void onAuthError(LIAuthError error) {
+                // Handle authentication errors
+                Toast.makeText(getApplicationContext(), "failed " + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        }, true);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Add this line to your existing onActivityResult() method
+        LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, data);
+    }
+
+    private void fetchInfo(){
+        String url = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address)?format=json";
+
+        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+        apiHelper.getRequest(this, url, new ApiListener() {
+            @Override
+            public void onApiSuccess(ApiResponse apiResponse) {
+                // Success!
+                String profileType = null;
+                String firstName = "";
+                String lastName = "";
+                String email = "";
+                String passWord = "";
+                View focusView = null;
+
+                JSONObject LI_JSON = apiResponse.getResponseDataAsJson();
+                Log.d(TAG, LI_JSON.toString());
+                try {
+                    profileType = (String) selectEntitySpinner.getSelectedItem();
+                    firstName = LI_JSON.getString("firstName");
+                    lastName = LI_JSON.getString("lastName");
+                    email = LI_JSON.getString("emailAddress");
+                    passWord = LI_JSON.getString("id");//we can use the LinkedIn profile ID as the password
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+                RestAsync rest = new RestAsync(_THISACTIVITY);
+
+                JSONObject emailCheck = new JSONObject();
+                try {
+                    emailCheck.put("email", email);
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                }
+
+                rest.setType("GET");
+                rest.execute(emailCheck);
+
+                try{
+                    hold = rest.get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e ) {
+                    e.printStackTrace();
+                }
+                if(hold.has("salt")){
+                    String error_message = "LinkedIn account already registered";
+                    Log.d(TAG, error_message);
+                    emailField.setError(error_message);
+                    Toast.makeText(getApplicationContext(), error_message, Toast.LENGTH_LONG).show();
+                }
+                if(selectEntitySpinner == null || profileType ==null){
+                    emailField.setError("Please select a valid profile type.");if(selectEntitySpinner == null || profileType ==null){
+                        emailField.setError("Please select a valid profile type.");
+                        focusView = selectEntitySpinner;
+                    }
+                }
+                if(focusView == null) {
+                    try {
+                        registration(email, passWord, firstName, lastName, profileType);//register LinkedIn user
+                    } catch (BadHashAndSaltException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    focusView.requestFocus();
+                }
+
+            }
+
+            @Override
+            public void onApiError(LIApiError liApiError) {
+                // Error making GET request!
+                String error_message = "LinkedIn API request failed";
+                Log.d(TAG, error_message);
+                Toast.makeText(getApplicationContext(), error_message, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private static Scope buildScope(){
+        return Scope.build(Scope.R_BASICPROFILE, Scope.R_EMAILADDRESS);
     }
 
     private void logIn(){
