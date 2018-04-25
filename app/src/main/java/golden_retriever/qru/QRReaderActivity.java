@@ -94,6 +94,12 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
 
         JSONObject profile = new JSONObject();
 
+        try{
+            profile.put("_id", ID);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
         rest.setType("GET");
         rest.execute(profile);
 
