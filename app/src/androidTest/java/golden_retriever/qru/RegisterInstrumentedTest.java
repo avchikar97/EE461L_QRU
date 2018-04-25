@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
@@ -24,20 +25,28 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class LoginErrorInstrumentedTest {
+public class RegisterInstrumentedTest {
 
     @Rule
-    public ActivityTestRule<LoginActivity> loginactivity = new ActivityTestRule<LoginActivity>(LoginActivity.class);
+    public ActivityTestRule<RegisterActivity> registeractivity = new ActivityTestRule<RegisterActivity>(RegisterActivity.class);
 
     @Test
-    public void useLogin() throws Exception {
+    public void emailTaken() throws Exception {
         onView(withId(R.id.email))
-                .perform(typeText("kevinsux@bignuts.com"));
-        onView(withId(R.id.password))
-                .perform(typeText("sux"));
-        onView(withId(R.id.email_sign_in_button))
+                .perform(typeText("calladokike@gmail.com"));
+        onView(withId(R.id.first_name))
+                .perform(typeText("Jon"));
+        onView(withId(R.id.last_name))
+                .perform(typeText("Deer"));
+        onView(withId(R.id.password1))
+                .perform(typeText("testing"));
+        onView(withId(R.id.password2))
+                .perform(typeText("string"))
+                .perform(closeSoftKeyboard());
+        onView(withId(R.id.register_button))
                 .perform(click());
-        onView(withId(R.id.password))
-                .check(matches(hasErrorText("This password is too short")));
+        onView(withId(R.id.email))
+                .check(matches(hasErrorText("This email is already registered")));
+
     }
 }
