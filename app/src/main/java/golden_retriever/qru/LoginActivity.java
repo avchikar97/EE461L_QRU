@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,10 +44,6 @@ import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.utils.Scope;
 import com.linkedin.platform.listeners.AuthListener;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,9 +83,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * LinkedIn Variables
      */
-    private final LoginActivity thisActivity = this;
+    private final LoginActivity _THISACTIVITY = this;
     private LISessionManager mLISessionManager;
-    private myJSONWrapper mLIResponse;
+    private JSONObject mLIResponse;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -119,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mLinkedinSignInButton = (Button) findViewById(R.id.linkedin_sign_in_button);
+        ImageButton mLinkedinSignInButton = (ImageButton) findViewById(R.id.linkedin_sign_in_button);
         mLinkedinSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -252,6 +249,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mPasswordView;
             cancel = true;
         }
+        else if(TextUtils.isEmpty(password)){
+            password = "";
+        }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
@@ -266,7 +266,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         // Check if email is registered
         if(!hold.has("salt")){
-            Log.d(TAG, "INVALID EMAIL ALREADY EXISTS");
+            Log.d(TAG, "INVALID EMAIL DOES NOT EXISTS");
             mEmailView.setError("This email is not registered");
             focusView = mEmailView;
             cancel = true;
@@ -287,10 +287,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         } catch(NoSuchAlgorithmException e) {
             e.printStackTrace();
+            mPasswordView.setError("Email/password do not match");
+            focusView = mPasswordView;
+            cancel = true;
         } catch(InvalidKeySpecException e) {
             e.printStackTrace();
+            mPasswordView.setError("Email/password do not match");
+            focusView = mPasswordView;
+            cancel = true;
         } catch(JSONException e) {
             e.printStackTrace();
+            mPasswordView.setError("Email/password do not match");
+            focusView = mPasswordView;
+            cancel = true;
         }
 
         // check that drop-down list was selected
@@ -305,33 +314,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
-
+            if(profileType == null){
+                profileType = "";
+            }
             // start Main activity depending on different types of profile
-            if (profileType.equals("Recruiter")){
+            if (profileType.equals("Recruiter")) {
                 Intent myIntent = new Intent(LoginActivity.this, RecruiterMain.class);
                 myIntent.putExtra("email", email); //Optional parameters
                 myIntent.putExtra("ID", ID);
                 LoginActivity.this.startActivity(myIntent);
-            } else {
+            } else if(profileType.equals("Student")) {
                 Intent myIntent = new Intent(LoginActivity.this, StudentMain.class);
                 myIntent.putExtra("email", email); //Optional parameters
                 myIntent.putExtra("ID", ID);
                 LoginActivity.this.startActivity(myIntent);
             }
-
         }
     }
 
     private void attempt_LILogin(){
         mLISessionManager = LISessionManager.getInstance(getApplicationContext());
-        mLISessionManager.init(thisActivity, buildScope(), new AuthListener() {
+        mLISessionManager.init(_THISACTIVITY, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {
                 // Authentication was successful.  You can now do
                 // other calls with the SDK.
-                Toast.makeText(getApplicationContext(), "success ", Toast.LENGTH_LONG).show();
+                String message = "LinkedIn login successful";
+                //Toast.makeText(getApplicationContext(), "LinkedIn login successful", Toast.LENGTH_LONG).show();
+                Log.d(this.getClass().toString(), message);
                 fetchInfo();
-                startWithLI();
             }
 
             @Override
@@ -349,44 +360,122 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void fetchInfo(){
-        String url = "https://api.linkedin.com/v1/people/~?format=json:(id,first-name,last-name,email-address)";
+        String url = "https://api.linkedin.com/v1/people/~:(id,email-address)?format=json";
 
         APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
         apiHelper.getRequest(this, url, new ApiListener() {
             @Override
             public void onApiSuccess(ApiResponse apiResponse) {
                 // Success!
-                mLIResponse = new myJSONWrapper(apiResponse.getResponseDataAsJson());
-                JSONObject LI_JSON = mLIResponse.getJSONObject();
+                String profileType = null;
+                String email = "";
+                String passWord = "";
+                String ID = null;
+                View focusView = null;
+
+                JSONObject LI_JSON = apiResponse.getResponseDataAsJson();
                 try {
-                    String firstName = LI_JSON.getString("firstName");
-                    String lastName = LI_JSON.getString("lastName");
-                    String fullName = firstName + " " + lastName;
-                    String email = LI_JSON.getString("emailAddress");
+                    email = LI_JSON.getString("emailAddress");
+                    passWord = LI_JSON.getString("id");//we can use the LinkedIn profile ID as the password
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+                if (mAuthTask != null) {
+                    return;
+                }
+
+                // Reset errors.
+                mEmailView.setError(null);
+                mPasswordView.setError(null);
+
+                RestAsync rest = new RestAsync(_THISACTIVITY);
+
+                JSONObject emailCheck = new JSONObject();
+                try {
+                    emailCheck.put("email", email);
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                }
+
+                rest.setType("GET");
+                rest.execute(emailCheck);
+
+                try{
+                    hold = rest.get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e ) {
+                    e.printStackTrace();
+                }
+
+                // Check if email is registered
+                if(!hold.has("salt")){
+                    Log.d(TAG, "INVALID EMAIL DOES NOT EXISTS");
+                    mEmailView.setError("This LinkedIn account is not registered");
+                    focusView = (Button) findViewById(R.id.register_button);
+                }
+                // Check if password is correct
+                String hashed = null;
+                try {
+                    hashed = DankHash.checkPassword(passWord, hold.getString("salt"));
+                    //Log.d(TAG, "Provided password: " + hold.getString("passWord") + " What I got: " + hashed);
+                    if(!hashed.equals(hold.getString("passWord"))){
+                        focusView = (Button) findViewById(R.id.register_button);
+                    } else {
+                        profileType = hold.getString("profileType");
+                        ID = hold.getString("_id");
+                    }
+                } catch(NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                    focusView = (Button) findViewById(R.id.register_button);
+                } catch(InvalidKeySpecException e) {
+                    e.printStackTrace();
+                    focusView = (Button) findViewById(R.id.register_button);
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                    focusView = (Button) findViewById(R.id.register_button);
+                }
+
+                // check that drop-down list was selected
+
+                if (focusView != null) {
+                    // There was an error; don't attempt login and focus the first
+                    // form field with an error.
+                    String error_message = "Please register your LinkedIn account or a new account";
+                    Toast.makeText(getApplicationContext(), error_message, Toast.LENGTH_LONG).show();
+                    focusView.requestFocus();
+                } else {
+                    // Show a progress spinner, and kick off a background task to
+                    // perform the user login attempt.
+                    showProgress(true);
+                    mAuthTask = new UserLoginTask(email, passWord);
+                    mAuthTask.execute((Void) null);
+                    if(profileType == null){
+                        profileType = "";
+                    }
+                    // start Main activity depending on different types of profile
+                    if (profileType.equals("Recruiter")) {
+                        Intent myIntent = new Intent(LoginActivity.this, RecruiterMain.class);
+                        myIntent.putExtra("email", email); //Optional parameters
+                        myIntent.putExtra("ID", ID);
+                        LoginActivity.this.startActivity(myIntent);
+                    } else if(profileType.equals("Student")) {
+                        Intent myIntent = new Intent(LoginActivity.this, StudentMain.class);
+                        myIntent.putExtra("email", email); //Optional parameters
+                        myIntent.putExtra("ID", ID);
+                        LoginActivity.this.startActivity(myIntent);
+                    }
                 }
             }
 
             @Override
             public void onApiError(LIApiError liApiError) {
                 // Error making GET request!
+                Log.d(TAG, liApiError.toString());
+                Toast.makeText(getApplicationContext(), liApiError.toString(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-
-    private void startWithLI(){
-        String profileType = (String) selectEntitySpinner.getSelectedItem();
-        if (profileType.equals("Recruiter")){
-            Intent myIntent = new Intent(LoginActivity.this, RecruiterMain.class);
-            myIntent.putExtra("LIResponse", mLIResponse); //Optional parameters
-            LoginActivity.this.startActivity(myIntent);
-        } else {
-            Intent myIntent = new Intent(LoginActivity.this, StudentMain.class);
-            myIntent.putExtra("LIResponse", mLIResponse); //Optional parameters
-            LoginActivity.this.startActivity(myIntent);
-        }
     }
 
     void generatePackageHash(){

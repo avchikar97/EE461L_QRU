@@ -26,19 +26,14 @@ public class QRGeneratorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_static_qrgenerator);
-        text = (EditText) findViewById(R.id.text);
-        gen_btn = (Button) findViewById(R.id.gen_btn);
         image = (ImageView) findViewById(R.id.image);
-        gen_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                text2Qr = text.getText().toString().trim();
-                QRGenerator QRGen = QRGenerator.getInstance();
-                Bitmap bitmap = QRGenerator.getQRCode("text2QR");
-                image.setImageBitmap(bitmap);
-                Bitmap bitmap2 = QRGenerator.getQRCode("hello");
-            }
-        });
+        Intent intent = getIntent();
+        final String ID = intent.getStringExtra("ID");
+        QRGenerator QRGen = QRGenerator.getInstance();
+        Bitmap bmap = QRGen.getQRCode(ID);
+
+        image.setImageBitmap(bmap);
+
     }
 
 

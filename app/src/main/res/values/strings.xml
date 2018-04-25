@@ -4,7 +4,7 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="register_button">Register new account</string>
@@ -22,6 +22,7 @@
     <!-- Register Strings -->
 
     <string name="push_register">Register</string>
+    <string name="li_push_register">Register with LinkedIn</string>
     <string name="error_no_confirm_pw">Please confirm your password</string>
     <string name="error_pw_no_match">Passwords do not match</string>
     <string name="title_activity_recruiter_main">RecruiterMain</string>
