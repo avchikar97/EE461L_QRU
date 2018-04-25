@@ -49,6 +49,7 @@ dependencies {
     implementation project(':linkedin-sdk')
     implementation project(':mail')
     implementation project(':prov-1.58.0.0')
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
 }
 
 
