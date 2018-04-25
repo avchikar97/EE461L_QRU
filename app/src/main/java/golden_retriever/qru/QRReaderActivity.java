@@ -36,7 +36,6 @@ import static android.support.v4.content.ContextCompat.startActivity;
 import static java.net.Proxy.Type.HTTP;
 
 public class QRReaderActivity extends AppCompatActivity implements AsyncResponse {
-    private Button scan_btn;
     JSONObject hold = null;
 
 
@@ -44,21 +43,14 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_static_qr);
-        scan_btn = (Button) findViewById(R.id.scan_button);
         final Activity activity = this;
-        scan_btn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-                integrator.setPrompt("Scan");
-                integrator.setCameraId(0);
-                integrator.setBeepEnabled(false);
-                integrator.setBarcodeImageEnabled(false);
-                integrator.initiateScan();
-            }
-
-        });
+        IntentIntegrator integrator = new IntentIntegrator(activity);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator.setPrompt("Scan");
+        integrator.setCameraId(0);
+        integrator.setBeepEnabled(false);
+        integrator.setBarcodeImageEnabled(false);
+        integrator.initiateScan();
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);

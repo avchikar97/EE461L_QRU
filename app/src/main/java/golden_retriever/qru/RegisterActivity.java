@@ -366,7 +366,9 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
                 .put("lastName", lastName)
                 .put("profileType", profileType)
                 .put("passWord", pw)
-                .put("salt", salt);
+                .put("salt", salt)
+                .put("attachment", "");
+
         } catch(JSONException e) {
             e.printStackTrace();
         }

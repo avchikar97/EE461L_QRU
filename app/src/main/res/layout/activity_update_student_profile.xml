@@ -46,20 +46,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="1">
 
                 <Spinner
                     android:id="@+id/student_update_profile_major"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
                     android:background="@android:drawable/btn_dropdown"
                     android:spinnerMode="dropdown"
                 ></Spinner>
 
                 <Spinner
                     android:id="@+id/student_update_profile_classification"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
                     android:background="@android:drawable/btn_dropdown"
                     android:spinnerMode="dropdown"
                     ></Spinner>
