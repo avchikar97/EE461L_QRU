@@ -30,6 +30,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 import static android.support.v4.content.ContextCompat.startActivity;
@@ -62,14 +63,24 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                 String ID = result.getContents();
                 String firstName = "";
                 String lastName = "";
+                String email = "";
+                String attachmentPath = "";
+                String profileType = "";
 
 
                 JSONObject json = getProfile(ID);
                 try{
                     firstName = json.getString("firstName");
                     lastName = json.getString("lastName");
+                    email = json.getString("email");
+                    attachmentPath = json.getString("attachment");
+                    profileType = json.getString("profileType");
                 } catch(Exception e){
-
+                    e.printStackTrace();
+                }
+                if(profileType.equals("Student")) {
+                    File resume = new File(attachmentPath);
+                    sendMail(email, firstName, lastName, resume);
                 }
 
                 String message = "You just met " + firstName + " " + lastName +  "!";
@@ -81,6 +92,7 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     public JSONObject getProfile(String ID){
         RestAsync rest = new RestAsync(this);
 
@@ -107,6 +119,18 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         } else {
             return null;
         }
+    }
+
+    public void sendMail(String email, String firstName, String lastName, File file){
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        // The intent does not have a URI, so declare the "text/plain" MIME type
+        emailIntent.setType("text/html");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email}); // recipients
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your interaction with " + firstName + " " +lastName);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "hello!");
+        //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:/" + file.getAbsolutePath()));
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
     }
 
     @Override

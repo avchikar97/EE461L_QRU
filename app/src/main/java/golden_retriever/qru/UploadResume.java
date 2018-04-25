@@ -18,17 +18,23 @@ import android.widget.Toast;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
-public class UploadResume extends AppCompatActivity {
+public class UploadResume extends AppCompatActivity implements AsyncResponse{
     Button button;
     TextView textView;
+    private JSONObject hold;
+    private String ID = getIntent().getStringExtra("ID");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +79,13 @@ public class UploadResume extends AppCompatActivity {
 
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            addNewResume(filePath);
             // Do anything with file
 
             Log.d("D", filePath);
             String filename = filePath.substring(filePath.lastIndexOf("/")+1);
             File file = new File(filePath);
-            sendMail("mjohnson082396@gmail.com", "Matt", "Johnson", file);
+            //sendMail("mjohnson082396@gmail.com", "Matt", "Johnson", file);
             try
             {
                 byte[] bArray = loadFile(filePath);
@@ -86,6 +93,40 @@ public class UploadResume extends AppCompatActivity {
             catch (IOException e) {e.printStackTrace();}
             textView.setText(filePath);
         }
+    }
+
+    protected void addNewResume(String resume_fp){
+        if(resume_fp == null){
+            return;
+        }
+        //retrieving JSON object
+        RestAsync rest = new RestAsync(this);
+        JSONObject idCheck = new JSONObject();
+        try {
+            idCheck.put("_id", this.ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        rest.setType("GET");
+        rest.execute(idCheck);
+        try {
+            hold = rest.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        //updating file path
+        hold.remove("attachment");
+        try {
+            hold.put("attachment", resume_fp);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //putting updated JSON object
+        rest.setType("POST");
+        rest.execute(hold);
+        Log.d(this.getClass().toString(), hold.toString());
     }
 
     @Override
@@ -137,17 +178,20 @@ public class UploadResume extends AppCompatActivity {
         }
     }
 
-    public void sendMail(String email, String firstName, String lastName, File file){
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        // The intent does not have a URI, so declare the "text/plain" MIME type
-        emailIntent.setType("text/html");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email}); // recipients
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your interaction with " + firstName + " " +lastName);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "hello!");
-        //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:/" + file.getAbsolutePath()));
-        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-        this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
+//    public void sendMail(String email, String firstName, String lastName, File file){
+//        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+//        // The intent does not have a URI, so declare the "text/plain" MIME type
+//        emailIntent.setType("text/html");
+//        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email}); // recipients
+//        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your interaction with " + firstName + " " +lastName);
+//        emailIntent.putExtra(Intent.EXTRA_TEXT, "hello!");
+//        //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:/" + file.getAbsolutePath()));
+//        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+//        this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
+//    }
 
-
+    @Override
+    public void processFinish(JSONObject output) {
+        hold = output;
     }
 }
