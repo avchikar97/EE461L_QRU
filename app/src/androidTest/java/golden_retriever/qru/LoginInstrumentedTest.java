@@ -61,7 +61,7 @@ public class LoginInstrumentedTest {
                 .check(matches(hasErrorText("This field is required")));
     }
     @Test
-    public void validLogin() throws Exception{
+    public void validStudentLogin() throws Exception{
         onView(withId(R.id.email))
                 .perform(typeText("calladokike@gmail.com"));
         onView(withId(R.id.password))
@@ -72,4 +72,15 @@ public class LoginInstrumentedTest {
         //intended(hasComponent(StudentMain.class.getName()));
     }
 
+    @Test
+    public void validRecruitertLogin() throws Exception{
+        onView(withId(R.id.email))
+                .perform(typeText("test@qru.com"));
+        onView(withId(R.id.password))
+                .perform(typeText("testing"));
+        onView(withId(R.id.email_sign_in_button))
+                .perform(click());
+        intended(hasComponent(new ComponentName(getTargetContext(), RecruiterMain.class)));
+        //intended(hasComponent(StudentMain.class.getName()));
+    }
 }
