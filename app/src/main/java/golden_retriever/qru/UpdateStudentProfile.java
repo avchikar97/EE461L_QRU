@@ -26,7 +26,7 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
     private static final String[] mongoFields = {"firstName", "lastName", "gpa", "classification", "major", "specNotes"};
     private static final int NUM_FIELDS = 6;
 
-    private String[] fieldResults = new String[6];
+    private String[] fieldResults = new String[NUM_FIELDS];
     private EditText firstName_edittext;
     private EditText lastName_edittext;
     private EditText gpa_edittext;
