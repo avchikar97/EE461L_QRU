@@ -16,7 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class UpdateRecruiterProfile extends AppCompatActivity implements AsyncResponse {
+    private static final String[] mongoFields = {"firstName", "lastName", "company", "email", "about", "position"};
+    private static final int NUM_FIELDS = 6;
 
+    private String[] fieldResults = new String[6];
     private EditText profile_firstname;
     private EditText profile_lastname;
     private EditText profile_company;
@@ -51,29 +54,28 @@ public class UpdateRecruiterProfile extends AppCompatActivity implements AsyncRe
             @Override
             public void onClick(View view) {
                 // delete old student from database, add new one
-                String new_firstName = profile_firstname.getText().toString();
-                String new_lastName = profile_lastname.getText().toString();
-                String new_company = profile_company.getText().toString();
-                String new_email = email.getText().toString();
-                String new_about = profile_company_about.getText().toString();
-                String new_positions = profile_positions.getText().toString();
+                fieldResults[0] = profile_firstname.getText().toString();
+                fieldResults[1] = profile_lastname.getText().toString();
+                fieldResults[2] = profile_company.getText().toString();
+                fieldResults[3] = email.getText().toString();
+                fieldResults[4] = profile_company_about.getText().toString();
+                fieldResults[5] = profile_positions.getText().toString();
 
                 JSONObject updateUser = new JSONObject();
                 try {
-                    updateUser.put("firstName", new_firstName)
-                            .put("lastName", new_lastName)
-                            .put("company", new_company)
-                            .put("email", new_email)
-                            .put("about", new_about)
-                            .put("position", new_positions);
+                    for(int i  = 0; i < NUM_FIELDS; i++) {
+                        if(!fieldResults[i].equals("")) {
+                            updateUser.put(mongoFields[i], fieldResults[i]);
+                        }
+                    }
                 } catch(JSONException e) {
                     e.printStackTrace();
                 }
 
                 rest.execute(updateUser);
 
-                Recruiter_Profile new_recruiter = new Recruiter_Profile("0", "dummySalt", "dummyPass", new_firstName, new_lastName, "dummyEmail", new_company, new_about,
-                        new_positions);
+                Recruiter_Profile new_recruiter = new Recruiter_Profile("0", "dummySalt", "dummyPass",
+                        fieldResults[0], fieldResults[1], "dummyEmail", fieldResults[2], fieldResults[4], fieldResults[5]);
 
                 Intent myIntent = new Intent(UpdateRecruiterProfile.this, RecruiterMain.class);
                 myIntent.putExtra("profiletype", "Recruiter");
