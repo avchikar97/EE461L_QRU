@@ -8,11 +8,14 @@ import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.ExecutionException;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onData;
@@ -40,7 +43,8 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class ProfileUpdateTest {
+public class ProfileUpdateTest implements AsyncResponse{
+    private static final String email = "calladokike@gmail.com";
 
     @Rule
     public ActivityTestRule<UpdateStudentProfile> tActivityRule = new ActivityTestRule<>(
@@ -51,8 +55,14 @@ public class ProfileUpdateTest {
 
     @Test
     public void updateProfile() throws Exception {
+        //Create Rest Client and sets operation to GET
+        RestAsync rest  = new RestAsync(this);
+        rest.setType("GET");
+        JSONObject query = new JSONObject();
+        JSONObject result = null;
+
         onView(withId(R.id.email))
-                .perform(typeText("calladokike@gmail.com"));
+                .perform(typeText(email));
         onView(withId(R.id.password))
                 .perform(typeText("testing"));
         onView(withId(R.id.email_sign_in_button))
@@ -92,6 +102,34 @@ public class ProfileUpdateTest {
                 .check(matches(withText("Scan New Company")));
         //check that the Database got updated with the new profile: New name, last name, gpa
         //assertEquals(Candidate_Profile.class.getName(), "Test");
+
+        //Create JSON query and sends it to RestClient and returns the query result to "result"
+        try {
+            query.put("email", email);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+        rest.execute(query);
+
+        try{
+            result = rest.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e ) {
+            e.printStackTrace();
+        }
+
+        //Checks if update was successful
+        if(result.has("firstName")) {
+            assertEquals(result.getString("firstName"), "Test");
+        } else {
+            fail("Update was not successful");
+        }
     }
 
+    @Override
+    public void processFinish(JSONObject output){
+
+    }
 }
