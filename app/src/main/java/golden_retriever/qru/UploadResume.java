@@ -34,7 +34,7 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
     Button button;
     TextView textView;
     private JSONObject hold;
-    private String ID = getIntent().getStringExtra("ID");
+    private String ID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +56,7 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1001);
         }
 
+        ID = this.getIntent().getStringExtra("ID");
         button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
 
@@ -124,6 +125,7 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
             e.printStackTrace();
         }
         //putting updated JSON object
+        rest = new RestAsync(this);
         rest.setType("POST");
         rest.execute(hold);
         Log.d(this.getClass().toString(), hold.toString());
