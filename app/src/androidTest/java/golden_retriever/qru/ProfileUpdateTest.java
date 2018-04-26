@@ -46,9 +46,9 @@ import static org.junit.Assert.*;
 public class ProfileUpdateTest implements AsyncResponse{
     private static final String email = "calladokike@gmail.com";
 
-    @Rule
+   /* @Rule
     public ActivityTestRule<UpdateStudentProfile> tActivityRule = new ActivityTestRule<>(
-            UpdateStudentProfile.class, true, false);
+            UpdateStudentProfile.class, true, );*/
     @Rule
     public IntentsTestRule<LoginActivity> mActivityRule = new IntentsTestRule<>(
             LoginActivity.class, true, true);
@@ -68,8 +68,9 @@ public class ProfileUpdateTest implements AsyncResponse{
         onView(withId(R.id.email_sign_in_button))
                 .perform(click());
         intended(hasComponent(new ComponentName(getTargetContext(), StudentMain.class)));
-
-        tActivityRule.launchActivity(null);
+        onView(withId(R.id.submit_student_profile_btn))
+                .perform(click());
+   //     tActivityRule.launchActivity(null);
         //New name
         onView(withId(R.id.student_update_profile_firstname))
                 .perform(typeText("Test"));
