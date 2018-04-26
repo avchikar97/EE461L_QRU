@@ -505,7 +505,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if(contain != 1) return false;
         if((email.substring(0, email.indexOf('@')).length() < 1) ||
             (email.substring(email.indexOf('@') + 1, email.length()).length() < 1) ||
-                (!email.contains(".com"))) return false;
+                ((!email.contains(".com")) && (!email.contains(".edu")) && (!email.contains(".org")) && (!email.contains(".gov"))))
+            return false;
         return true;
     }
 
