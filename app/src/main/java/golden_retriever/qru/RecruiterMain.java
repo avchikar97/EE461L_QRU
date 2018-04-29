@@ -40,6 +40,7 @@ public class RecruiterMain extends AppCompatActivity {
 
                 Intent myIntent = new Intent(RecruiterMain.this, QRReaderActivity.class);
                 myIntent.putExtra("profiletype", "Recruiter");
+                myIntent.putExtra("ID", ID);
                 RecruiterMain.this.startActivity(myIntent);
             }
         });
