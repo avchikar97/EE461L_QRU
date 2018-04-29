@@ -2,25 +2,9 @@ package golden_retriever.qru;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.util.SparseArray;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
+
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -33,11 +17,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.concurrent.ExecutionException;
 
-import static android.support.v4.content.ContextCompat.startActivity;
-import static java.net.Proxy.Type.HTTP;
-
 public class QRReaderActivity extends AppCompatActivity implements AsyncResponse {
-    JSONObject hold = null;
+    JSONObject mine = null;
+    JSONObject yours = null;
     String myID;    // ID of user reading the app
 
     @Override
@@ -55,6 +37,9 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         myID = getIntent().getStringExtra("ID");
+        JSONObject myProfileObj = null;
+        JSONObject theirProfileObj = null;
+
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if(result.getContents() == null){
@@ -79,7 +64,7 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
 
 
 
-                JSONObject json = getProfile(ID);
+                JSONObject json = getProfile(ID, "yours");
                 try{
                     firstName = json.getString("firstName");
                     lastName = json.getString("lastName");
@@ -92,7 +77,7 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                 if(profileType.equals("Student")) {
                     // send message from recruiter
 
-                    JSONObject myProfile = getProfile(myID);
+                    JSONObject myProfile = getProfile(myID, "mine");
 
                     try{
                         myfirstName = myProfile.getString("firstName");
@@ -135,31 +120,57 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         }
     }
 
-    public JSONObject getProfile(String ID){
+    public JSONObject getProfile(String ID, String profileType){
         RestAsync rest = new RestAsync(this);
+        if (profileType.equals("mine")){
+            JSONObject profile = new JSONObject();
 
-        JSONObject profile = new JSONObject();
+            try{
+                profile.put("_id", ID);
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
 
-        try{
-            profile.put("_id", ID);
-        } catch (JSONException e){
-            e.printStackTrace();
+            rest.setType("GET");
+            rest.execute(profile);
+
+            try{
+                mine = rest.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e ) {
+                e.printStackTrace();
+            }
+            if(mine.has("_id")){
+                return mine;
+            } else {
+                return null;
+            }
         }
+        else {
+            JSONObject profile = new JSONObject();
 
-        rest.setType("GET");
-        rest.execute(profile);
+            try {
+                profile.put("_id", ID);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        try{
-            hold = rest.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e ) {
-            e.printStackTrace();
-        }
-        if(hold.has("_id")){
-            return hold;
-        } else {
-            return null;
+            rest.setType("GET");
+            rest.execute(profile);
+
+            try {
+                yours = rest.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if (yours.has("_id")) {
+                return yours;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -177,6 +188,6 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
 
     @Override
     public void processFinish(JSONObject output) {
-        hold = output;
+        mine = output;
     }
 }

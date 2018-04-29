@@ -276,7 +276,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String hashed = null;
         try {
             hashed = DankHash.checkPassword(password, hold.getString("salt"));
-            //Log.d(TAG, "Provided password: " + hold.getString("passWord") + " What I got: " + hashed);
+            //Log.d(TAG, "Provided password: " + mine.getString("passWord") + " What I got: " + hashed);
             if(!hashed.equals(hold.getString("passWord"))){
                 mPasswordView.setError("Password is incorrect");
                 focusView = mPasswordView;
@@ -419,7 +419,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 String hashed = null;
                 try {
                     hashed = DankHash.checkPassword(passWord, hold.getString("salt"));
-                    //Log.d(TAG, "Provided password: " + hold.getString("passWord") + " What I got: " + hashed);
+                    //Log.d(TAG, "Provided password: " + mine.getString("passWord") + " What I got: " + hashed);
                     if(!hashed.equals(hold.getString("passWord"))){
                         focusView = (Button) findViewById(R.id.register_button);
                     } else {
