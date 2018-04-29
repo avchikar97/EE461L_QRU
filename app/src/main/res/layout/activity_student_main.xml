@@ -34,19 +34,19 @@
                 android:text="Scan New Company" />
 
             <Button
+                android:id="@+id/generate_student_QR_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Generate My QR Code" />
+
+            <Button
                 android:id="@+id/submit_student_profile_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:elevation="0dp"
                 android:text="Update Student Profile" />
-
-            <Button
-                android:id="@+id/generate_student_QR_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Generate My QR Code" />
 
             <Button
                 android:id="@+id/view_profile_btn"

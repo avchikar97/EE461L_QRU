@@ -37,8 +37,6 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         myID = getIntent().getStringExtra("ID");
-        JSONObject myProfileObj = null;
-        JSONObject theirProfileObj = null;
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {

@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static android.app.PendingIntent.getActivity;
 
 public class StudentMain extends AppCompatActivity {
     private Button updateProfileButton;
@@ -88,7 +91,6 @@ public class StudentMain extends AppCompatActivity {
         LogOffButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-
                 Intent myIntent = new Intent(StudentMain.this, LoginActivity.class);
                 StudentMain.this.startActivity(myIntent);
             }
