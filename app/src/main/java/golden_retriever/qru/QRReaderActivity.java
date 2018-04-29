@@ -94,13 +94,25 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                     String message = "Hello " + firstName + " " + lastName + ",\n"
                             + "Thank you for visiting with " + myCompany + ". \n\n" + myfirstName + "\n"
                             + mylastName + "\n" + myCompany;
-                    String subject = "Your interaction with " + myfirstName + " " + mylastName + "at " + myCompany;
+                    String subject = "Your interaction with " + myfirstName + " " + mylastName + " at " + myCompany;
                     sendMail(email, subject, message,  companyAttachment);
 
 
 
 
                 } else if (profileType.equals("Recruiter")){
+                    JSONObject yourProfile = getProfile(ID, "yours");
+                    try{
+                        myfirstName = yourProfile.getString("firstName");
+                        mylastName = yourProfile.getString("lastName");
+                        myemail = yourProfile.getString("email");
+                        myattachmentPath = yourProfile.getString("attachment");
+                        myprofileType = yourProfile.getString("profileType");
+
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+
 
                     File resume = new File(attachmentPath);
                     String message = "Hello " + firstName + " " + lastName + ",\n"
