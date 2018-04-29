@@ -80,7 +80,6 @@
                 android:layout_marginTop="16dp"
                 android:text="Update Student Profile"
                 android:textStyle="bold"
-
                 />
 
 

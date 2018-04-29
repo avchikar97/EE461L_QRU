@@ -79,6 +79,10 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
 
         gpa_edittext = (EditText) findViewById(R.id.student_update_profile_GPA);
 
+        special_notes_edittext = (EditText) findViewById(R.id.student_update_profile_special_notes);
+
+        update_profile_btn = (Button) findViewById(R.id.submit_student_profile_btn);
+
         major_spinner = (Spinner) findViewById(R.id.student_update_profile_major);
 
         major_spinner.setPrompt("Select your major");
@@ -103,7 +107,7 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
         classifications.add("Sophomore");
         classifications.add("Junior");
         classifications.add("Senior");
-        classifications.add("Alum");
+        classifications.add("Alumni");
         classifications.add("Master's");
         classifications.add("Doctorate");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -127,15 +131,34 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
             } else {
                 classification_spinner.setSelection(0);
             }
+            if(result.has("firstName")){
+                String firstName = result.getString("firstName");
+                firstName_edittext.setHint(firstName);
+            }
+            else
+                firstName_edittext.setHint(R.string.update_student_firstName);
+            if(result.has("lastName")){
+                String lastName = result.getString("lastName");
+                lastName_edittext.setHint(lastName);
+            }
+            else
+                lastName_edittext.setHint(R.string.update_student_lastName);
+            if(result.has("gpa")){
+                String GPA = result.getString("gpa");
+                gpa_edittext.setHint(GPA);
+            }
+            else
+                gpa_edittext.setHint(getString(R.string.update_student_gpa));
+            if(result.has("specNotes")){
+                String specNotes = result.getString("specNotes");
+                special_notes_edittext.setHint(specNotes);
+            }
+            else
+                special_notes_edittext.setHint(R.string.update_student_specialNote);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
-        special_notes_edittext = (EditText) findViewById(R.id.student_update_profile_special_notes);
-
-        update_profile_btn = (Button) findViewById(R.id.submit_student_profile_btn);
 
         update_profile_btn.setOnClickListener(new View.OnClickListener() {
             @Override

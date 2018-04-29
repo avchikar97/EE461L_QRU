@@ -40,6 +40,7 @@ public class RecruiterMain extends AppCompatActivity {
 
                 Intent myIntent = new Intent(RecruiterMain.this, QRReaderActivity.class);
                 myIntent.putExtra("profiletype", "Recruiter");
+                myIntent.putExtra("ID", ID);
                 RecruiterMain.this.startActivity(myIntent);
             }
         });
@@ -50,6 +51,7 @@ public class RecruiterMain extends AppCompatActivity {
             public void onClick(View view) {
                 Intent myIntent = new Intent(RecruiterMain.this, QRGeneratorActivity.class);
                 myIntent.putExtra("profiletype", "Recruiter");
+                myIntent.putExtra("ID", ID);
                 RecruiterMain.this.startActivity(myIntent);
             }
         });

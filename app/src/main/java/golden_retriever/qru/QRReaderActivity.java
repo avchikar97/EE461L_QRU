@@ -2,25 +2,9 @@ package golden_retriever.qru;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
-import android.util.SparseArray;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
+
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -33,12 +17,10 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.concurrent.ExecutionException;
 
-import static android.support.v4.content.ContextCompat.startActivity;
-import static java.net.Proxy.Type.HTTP;
-
 public class QRReaderActivity extends AppCompatActivity implements AsyncResponse {
-    JSONObject hold = null;
-
+    JSONObject mine = null;
+    JSONObject yours = null;
+    String myID;    // ID of user reading the app
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +36,10 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         integrator.initiateScan();
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        myID = getIntent().getStringExtra("ID");
+        JSONObject myProfileObj = null;
+        JSONObject theirProfileObj = null;
+
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if(result.getContents() == null){
@@ -68,7 +54,17 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                 String profileType = "";
 
 
-                JSONObject json = getProfile(ID);
+                // profile of activity
+                String myfirstName = "";
+                String mylastName = "";
+                String myemail = "";
+                String myattachmentPath = "";
+                String myprofileType = "";
+                String myCompany = "";
+
+
+
+                JSONObject json = getProfile(ID, "yours");
                 try{
                     firstName = json.getString("firstName");
                     lastName = json.getString("lastName");
@@ -79,8 +75,51 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                     e.printStackTrace();
                 }
                 if(profileType.equals("Student")) {
+                    // send message from recruiter
+
+                    JSONObject myProfile = getProfile(myID, "mine");
+
+                    try{
+                        myfirstName = myProfile.getString("firstName");
+                        mylastName = myProfile.getString("lastName");
+                        myemail = myProfile.getString("email");
+                        myattachmentPath = myProfile.getString("attachment");
+                        myprofileType = myProfile.getString("profileType");
+                        myCompany = myProfile.getString("companyName");
+
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    File companyAttachment = new File(myattachmentPath);
+                    String message = "Hello " + firstName + " " + lastName + ",\n"
+                            + "Thank you for visiting with " + myCompany + ". \n\n" + myfirstName + "\n"
+                            + mylastName + "\n" + myCompany;
+                    String subject = "Your interaction with " + myfirstName + " " + mylastName + " at " + myCompany;
+                    sendMail(email, subject, message,  companyAttachment);
+
+
+
+
+                } else if (profileType.equals("Recruiter")){
+                    JSONObject yourProfile = getProfile(ID, "yours");
+                    try{
+                        myfirstName = yourProfile.getString("firstName");
+                        mylastName = yourProfile.getString("lastName");
+                        myemail = yourProfile.getString("email");
+                        myattachmentPath = yourProfile.getString("attachment");
+                        myprofileType = yourProfile.getString("profileType");
+
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+
+
                     File resume = new File(attachmentPath);
-                    sendMail(email, firstName, lastName, resume);
+                    String message = "Hello " + firstName + " " + lastName + ",\n"
+                            + "Thank you for visiting with me at the job fair. Attached is my resume. \n\n" + myfirstName
+                            + "\n" + mylastName;
+                    String subject = "Your interaction with " + myfirstName + " " + mylastName;
+                    sendMail(email, subject, message,  resume);
                 }
 
                 String message = "You just met " + firstName + " " + lastName +  "!";
@@ -93,41 +132,67 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         }
     }
 
-    public JSONObject getProfile(String ID){
+    public JSONObject getProfile(String ID, String profileType){
         RestAsync rest = new RestAsync(this);
+        if (profileType.equals("mine")){
+            JSONObject profile = new JSONObject();
 
-        JSONObject profile = new JSONObject();
+            try{
+                profile.put("_id", ID);
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
 
-        try{
-            profile.put("_id", ID);
-        } catch (JSONException e){
-            e.printStackTrace();
+            rest.setType("GET");
+            rest.execute(profile);
+
+            try{
+                mine = rest.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e ) {
+                e.printStackTrace();
+            }
+            if(mine.has("_id")){
+                return mine;
+            } else {
+                return null;
+            }
         }
+        else {
+            JSONObject profile = new JSONObject();
 
-        rest.setType("GET");
-        rest.execute(profile);
+            try {
+                profile.put("_id", ID);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        try{
-            hold = rest.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e ) {
-            e.printStackTrace();
-        }
-        if(hold.has("_id")){
-            return hold;
-        } else {
-            return null;
+            rest.setType("GET");
+            rest.execute(profile);
+
+            try {
+                yours = rest.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+            if (yours.has("_id")) {
+                return yours;
+            } else {
+                return null;
+            }
         }
     }
 
-    public void sendMail(String email, String firstName, String lastName, File file){
+    public void sendMail(String email, String subject, String message, File file){
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         // The intent does not have a URI, so declare the "text/plain" MIME type
         emailIntent.setType("text/html");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email}); // recipients
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your interaction with " + firstName + " " +lastName);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "hello!");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, message);
         //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:/" + file.getAbsolutePath()));
         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
@@ -135,6 +200,6 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
 
     @Override
     public void processFinish(JSONObject output) {
-        hold = output;
+        mine = output;
     }
 }

@@ -28,31 +28,24 @@
 
             <Button
                 android:id="@+id/new_scan_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Scan New Student"
-                android:textStyle="bold"/>
+                android:text="Scan New Student" />
 
             <Button
                 android:id="@+id/generate_recruiter_QR_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Generate My QR Code!"
-                android:textStyle="bold"/>
+                android:text="Generate My QR Code!" />
 
             <Button
                 android:id="@+id/update_recruiter_profile_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Update Company Profile"
-                android:textStyle="bold"
-                />
+                android:text="Update Company Profile" />
 
 
 

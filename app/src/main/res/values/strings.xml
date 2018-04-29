@@ -20,7 +20,6 @@
     <string name="title_activity_static_qr">StaticQR</string>
 
     <!-- Register Strings -->
-
     <string name="push_register">Register</string>
     <string name="li_push_register">Register with LinkedIn</string>
     <string name="error_no_confirm_pw">Please confirm your password</string>
@@ -32,5 +31,9 @@
     <string name="title_activity_update_recruiter_profile">UpdateRecruiterProfile</string>
     <string name="title_activity_static_qrgenerator">StaticQRGenerator</string>
 
-
+    <!-- Update student profile strings -->
+    <string name="update_student_firstName">First Name</string>
+    <string name="update_student_lastName">Last Name</string>
+    <string name="update_student_gpa">GPA</string>
+    <string name="update_student_specialNote">Any special considerations for employers to note</string>
 </resources>

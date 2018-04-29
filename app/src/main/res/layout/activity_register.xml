@@ -86,15 +86,6 @@
                 android:spinnerMode="dropdown"
                 />
 
-            <!--<Button-->
-                <!--android:id="@+id/li_register_button"-->
-                <!--style="?android:textAppearanceSmall"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="16dp"-->
-                <!--android:text="@string/li_push_register"-->
-                <!--android:textStyle="bold"/>-->
-
             <ImageButton
                 android:id = "@+id/li_register_button"
                 android:layout_width="match_parent"
