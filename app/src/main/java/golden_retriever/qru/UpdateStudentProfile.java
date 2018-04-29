@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.linkedin.platform.utils.Scope;
 
@@ -34,6 +35,7 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
     private Spinner classification_spinner;
     private EditText special_notes_edittext;
     private Button update_profile_btn;
+    private Button cancel_btn;
 
     private String ID;
     private JSONObject hold;
@@ -82,6 +84,8 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
         special_notes_edittext = (EditText) findViewById(R.id.student_update_profile_special_notes);
 
         update_profile_btn = (Button) findViewById(R.id.submit_student_profile_btn);
+
+        cancel_btn = (Button) findViewById(R.id.cancel_btn);
 
         major_spinner = (Spinner) findViewById(R.id.student_update_profile_major);
 
@@ -193,9 +197,21 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
                 Intent myIntent = new Intent(UpdateStudentProfile.this, StudentMain.class);
                 myIntent.putExtra("profiletype", "Student");
                 myIntent.putExtra("ID", ID);
+                Toast.makeText(getApplicationContext(),"Profile Updated", Toast.LENGTH_SHORT).show();
                 UpdateStudentProfile.this.startActivity(myIntent);
             }
         });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(UpdateStudentProfile.this, StudentMain.class);
+                myIntent.putExtra("profiletype", "Student");
+                myIntent.putExtra("ID", ID);
+                UpdateStudentProfile.this.startActivity(myIntent);
+            }
+        });
+
     }
 
     @Override
