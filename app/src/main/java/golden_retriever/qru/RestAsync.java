@@ -24,7 +24,8 @@ import golden_retriever.qru.Candidate_Profile;
 
 public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
     public static final String TAG = "RestClient";
-    private static final String NODE_IP = "35.194.32.181";
+    private static final String NODE_IP = "35.193.21.137";
+    //"35.194.32.181"
 
     private String type;
     private String id;

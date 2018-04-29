@@ -10,6 +10,7 @@ import android.widget.TextView;
 public class StudentMain extends AppCompatActivity {
     private Button updateProfileButton;
     private Button newScanButton;
+    private Button viewProfileButton;
     private Button getStudentQRCodeButton;
     private Button uploadPDFButton;
     private TextView welcomeMessage;
@@ -45,6 +46,19 @@ public class StudentMain extends AppCompatActivity {
                 StudentMain.this.startActivity(myIntent);
             }
         });
+
+        viewProfileButton = (Button) findViewById(R.id.view_profile_btn);
+        viewProfileButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(StudentMain.this, DisplayStudentProfile.class);
+                myIntent.putExtra("profiletype", "Student");
+                myIntent.putExtra("ID", ID);
+                StudentMain.this.startActivity(myIntent);
+            }
+        });
+
 
         getStudentQRCodeButton = (Button) findViewById(R.id.generate_student_QR_btn);
         getStudentQRCodeButton.setOnClickListener(new View.OnClickListener() {

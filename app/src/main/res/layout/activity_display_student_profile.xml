@@ -1,0 +1,175 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:andorid="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="golden_retriever.qru.RegisterActivity">
+
+    <ScrollView
+        android:id="@+id/recruiter_main_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <LinearLayout
+            android:id="@+id/the_profile_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5pt">
+                <TextView
+                    android:id="@+id/fn_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:layout_marginRight="5pt"
+                    android:text="First Name: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/first_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="9pt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="5pt">
+                <TextView
+                    android:id="@+id/ln_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:layout_marginRight="5pt"
+                    android:text="Last Name: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/last_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="9pt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="4pt">
+                <TextView
+                    android:id="@+id/class_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:layout_marginRight="5pt"
+                    android:text="Classification: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/classification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="9pt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="4pt">
+                <TextView
+                    android:id="@+id/major_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:layout_marginRight="5pt"
+                    android:text="Major: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/major"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="9pt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="4pt">
+                <TextView
+                    android:id="@+id/gpa_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:layout_marginRight="5pt"
+                    android:text="GPA: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/gpa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="9pt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="4pt">
+                <TextView
+                    android:id="@+id/special_notes_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10pt"
+                    android:layout_marginRight="5pt"
+                    android:text="Special Notes: "
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/special_notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="9pt" />
+            </LinearLayout>
+
+
+            <com.github.barteksc.pdfviewer.PDFView
+                android:id="@+id/pdfView"
+                android:layout_width="match_parent"
+                android:layout_height="220pt" />
+
+            <Button
+                android:id="@+id/home_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Go home"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

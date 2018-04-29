@@ -9,17 +9,20 @@ import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.barteksc.pdfviewer.PDFView;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.spongycastle.jcajce.provider.symmetric.ARC4;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,14 +30,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
 public class UploadResume extends AppCompatActivity implements AsyncResponse{
     Button button;
+    Button homeButton;
     TextView textView;
     private JSONObject hold;
-    private String ID = getIntent().getStringExtra("ID");
+    private String ID = "";
+    private byte[] bArray;
+    private PDFView pdfView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,7 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1001);
         }
 
+        ID = this.getIntent().getStringExtra("ID");
         button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
 
@@ -71,6 +79,16 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
                         .start();
             }
         });
+
+        homeButton = (Button) findViewById(R.id.home_button);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sendIT = new Intent(UploadResume.this, StudentMain.class);
+                sendIT.putExtra("ID", ID);
+                startActivity(sendIT);
+            }
+        });
     }
 
     @Override
@@ -79,6 +97,11 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
 
         if (requestCode == 1000 && resultCode == RESULT_OK) {
             String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            try
+            {
+                bArray = loadFile(filePath);
+            }
+            catch (IOException e) {e.printStackTrace();}
             addNewResume(filePath);
             // Do anything with file
 
@@ -86,11 +109,6 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
             String filename = filePath.substring(filePath.lastIndexOf("/")+1);
             File file = new File(filePath);
             //sendMail("mjohnson082396@gmail.com", "Matt", "Johnson", file);
-            try
-            {
-                byte[] bArray = loadFile(filePath);
-            }
-            catch (IOException e) {e.printStackTrace();}
             textView.setText(filePath);
         }
     }
@@ -99,9 +117,75 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
         if(resume_fp == null){
             return;
         }
+        RestAsync checkResume = new RestAsync(this);
+        JSONObject result = null;
+        checkResume.setType("GET");
+
+        JSONObject checkObj = new JSONObject();
+        try {
+            checkObj.put("_id", ID);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        checkResume.execute(checkObj);
+
+        try{
+            result = checkResume.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e ) {
+            e.printStackTrace();
+        }
+
         //retrieving JSON object
         RestAsync rest = new RestAsync(this);
-        JSONObject idCheck = new JSONObject();
+        RestAsync restResume = new RestAsync(this);
+
+        if(!result.has("resumeid")) {
+            rest.setType("UPDATE");
+            restResume.setType("POST");
+            rest.setId(ID);
+            String id = new String();
+
+            try {
+                id = RandomAPIKeyGen.generate(96);
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+
+            JSONObject resumeObj = new JSONObject();
+            try {
+                resumeObj.put("_id", id)
+                        .put("resumeData", Base64.encodeToString(bArray, Base64.DEFAULT));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JSONObject resume = new JSONObject();
+            try {
+                resume.put("resumeid", id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            rest.execute(resume);
+            restResume.execute(resumeObj);
+        } else {
+            restResume.setType("UPDATE");
+
+            JSONObject resumeObj = new JSONObject();
+            try {
+                resumeObj.put("resumeData", Base64.encodeToString(bArray, Base64.DEFAULT));
+                restResume.setId(result.getString("resumeid"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            restResume.execute(resumeObj);
+        }
+
+        /*JSONObject idCheck = new JSONObject();
         try {
             idCheck.put("_id", this.ID);
         } catch (JSONException e) {
@@ -124,9 +208,10 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
             e.printStackTrace();
         }
         //putting updated JSON object
+        rest = new RestAsync(this);
         rest.setType("POST");
         rest.execute(hold);
-        Log.d(this.getClass().toString(), hold.toString());
+        Log.d(this.getClass().toString(), hold.toString());*/
     }
 
     @Override
