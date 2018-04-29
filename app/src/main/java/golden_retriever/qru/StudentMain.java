@@ -13,6 +13,7 @@ public class StudentMain extends AppCompatActivity {
     private Button viewProfileButton;
     private Button getStudentQRCodeButton;
     private Button uploadPDFButton;
+    private Button LogOffButton;
     private TextView welcomeMessage;
 
     private String ID;
@@ -79,6 +80,16 @@ public class StudentMain extends AppCompatActivity {
                 Intent myIntent = new Intent(StudentMain.this, UploadResume.class);
                 myIntent.putExtra("profiletype", "Student");
                 myIntent.putExtra("ID", ID);
+                StudentMain.this.startActivity(myIntent);
+            }
+        });
+
+        LogOffButton = (Button) findViewById(R.id.log_off_student_button);
+        LogOffButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(StudentMain.this, LoginActivity.class);
                 StudentMain.this.startActivity(myIntent);
             }
         });

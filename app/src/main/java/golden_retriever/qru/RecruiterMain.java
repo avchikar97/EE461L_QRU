@@ -12,6 +12,7 @@ public class RecruiterMain extends AppCompatActivity {
     private Button newScanButton;
     private Button generateQRCodeButton;
     private TextView welcomeMessage;
+    private Button LogOffButton;
 
     private String ID;
     @Override
@@ -56,7 +57,15 @@ public class RecruiterMain extends AppCompatActivity {
             }
         });
 
+        LogOffButton = (Button) findViewById(R.id.log_off_recruiter_button);
+        LogOffButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
 
+                Intent myIntent = new Intent(RecruiterMain.this, LoginActivity.class);
+                RecruiterMain.this.startActivity(myIntent);
+            }
+        });
     }
 
 }
