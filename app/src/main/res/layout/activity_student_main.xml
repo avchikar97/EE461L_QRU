@@ -28,33 +28,30 @@
 
             <Button
                 android:id="@+id/student_scan_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Scan New Company"
-                android:textStyle="bold"/>
+                android:text="Scan New Company" />
 
             <Button
                 android:id="@+id/submit_student_profile_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Update Student Profile"
-                android:textStyle="bold"
-                />
+                android:elevation="0dp"
+                android:text="Update Student Profile" />
+
             <Button
                 android:id="@+id/generate_student_QR_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Generate My QR Code"/>
+                android:text="Generate My QR Code" />
 
             <Button
                 android:id="@+id/upload_resume_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Upload my resume"/>
+                android:text="Upload my resume" />
 
 
 
