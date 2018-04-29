@@ -38,7 +38,7 @@ import static java.net.Proxy.Type.HTTP;
 
 public class QRReaderActivity extends AppCompatActivity implements AsyncResponse {
     JSONObject hold = null;
-
+    String myID;    // ID of user reading the app
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         integrator.initiateScan();
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        myID = getIntent().getStringExtra("ID");
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if(result.getContents() == null){
@@ -68,6 +69,16 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                 String profileType = "";
 
 
+                // profile of activity
+                String myfirstName = "";
+                String mylastName = "";
+                String myemail = "";
+                String myattachmentPath = "";
+                String myprofileType = "";
+                String myCompany = "";
+
+
+
                 JSONObject json = getProfile(ID);
                 try{
                     firstName = json.getString("firstName");
@@ -79,8 +90,39 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                     e.printStackTrace();
                 }
                 if(profileType.equals("Student")) {
+                    // send message from recruiter
+
+                    JSONObject myProfile = getProfile(myID);
+
+                    try{
+                        myfirstName = myProfile.getString("firstName");
+                        mylastName = myProfile.getString("lastName");
+                        myemail = myProfile.getString("email");
+                        myattachmentPath = myProfile.getString("attachment");
+                        myprofileType = myProfile.getString("profileType");
+                        myCompany = myProfile.getString("companyName");
+
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    File companyAttachment = new File(myattachmentPath);
+                    String message = "Hello " + firstName + " " + lastName + ",\n"
+                            + "Thank you for visiting with " + myCompany + ". \n\n" + myfirstName + "\n"
+                            + mylastName + "\n" + myCompany;
+                    String subject = "Your interaction with " + myfirstName + " " + mylastName + "at " + myCompany;
+                    sendMail(email, subject, message,  companyAttachment);
+
+
+
+
+                } else if (profileType.equals("Recruiter")){
+
                     File resume = new File(attachmentPath);
-                    sendMail(email, firstName, lastName, resume);
+                    String message = "Hello " + firstName + " " + lastName + ",\n"
+                            + "Thank you for visiting with me at the job fair. Attached is my resume. \n\n" + myfirstName
+                            + "\n" + mylastName;
+                    String subject = "Your interaction with " + myfirstName + " " + mylastName;
+                    sendMail(email, subject, message,  resume);
                 }
 
                 String message = "You just met " + firstName + " " + lastName +  "!";
@@ -121,13 +163,13 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         }
     }
 
-    public void sendMail(String email, String firstName, String lastName, File file){
+    public void sendMail(String email, String subject, String message, File file){
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         // The intent does not have a URI, so declare the "text/plain" MIME type
         emailIntent.setType("text/html");
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {email}); // recipients
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your interaction with " + firstName + " " +lastName);
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "hello!");
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, message);
         //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:/" + file.getAbsolutePath()));
         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
