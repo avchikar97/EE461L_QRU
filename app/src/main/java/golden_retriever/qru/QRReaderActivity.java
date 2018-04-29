@@ -5,16 +5,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
 
+import com.android.volley.RetryPolicy;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.nbsp.materialfilepicker.utils.FileUtils;
 
 import android.content.Intent;
+import android.util.Base64;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
 
 public class QRReaderActivity extends AppCompatActivity implements AsyncResponse {
@@ -37,8 +44,11 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         myID = getIntent().getStringExtra("ID");
-        JSONObject myProfileObj = null;
-        JSONObject theirProfileObj = null;
+        String resumeID = null;
+        String toBeDecoded = null;
+        JSONObject result1 = null;
+        JSONObject result2 = null;
+        RestAsync resumeRest = new RestAsync(this);
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
@@ -83,9 +93,23 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                         myfirstName = myProfile.getString("firstName");
                         mylastName = myProfile.getString("lastName");
                         myemail = myProfile.getString("email");
-                        myattachmentPath = myProfile.getString("attachment");
+                        myattachmentPath = myProfile.getString("resumeid");
                         myprofileType = myProfile.getString("profileType");
                         myCompany = myProfile.getString("companyName");
+
+                       /* resumeID = result1.getString("resumeid");
+
+                        JSONObject resumeQuery = new JSONObject();
+                        resumeQuery.put("_id", resumeID);
+
+                        resumeRest.execute(resumeQuery);
+
+                        result2 = resumeRest.get();
+
+                        toBeDecoded = result2.getString("resumeData");
+                        byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);
+                        Path path = Paths.get("/storage/emulated/0/Download/myResume.pdf");
+                        Files.write(path, toPDF);*/
 
                     } catch(Exception e){
                         e.printStackTrace();
@@ -109,17 +133,32 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                         myattachmentPath = yourProfile.getString("attachment");
                         myprofileType = yourProfile.getString("profileType");
 
+                        /*resumeID = result1.getString("resumeid");
+
+                        JSONObject resumeQuery = new JSONObject();
+                        resumeQuery.put("_id", resumeID);
+
+                        resumeRest.execute(resumeQuery);
+
+                        result2 = resumeRest.get();
+
+                        toBeDecoded = result2.getString("resumeData");
+                        byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);
+                        Path path = Paths.get("storage/emulated/0/Download/myResume.pdf");
+                        Files.write(path, toPDF);
+                        */
+
                     } catch(Exception e){
                         e.printStackTrace();
                     }
 
-
-                    File resume = new File(attachmentPath);
+                    //File resume = new File("/storage/emulated/0/Download/myResume.pdf");
+                    File resume = new File(myattachmentPath);
                     String message = "Hello " + firstName + " " + lastName + ",\n"
                             + "Thank you for visiting with me at the job fair. Attached is my resume. \n\n" + myfirstName
                             + "\n" + mylastName;
                     String subject = "Your interaction with " + myfirstName + " " + mylastName;
-                    sendMail(email, subject, message,  resume);
+                    sendMail(email, subject, message, resume);
                 }
 
                 String message = "You just met " + firstName + " " + lastName +  "!";
