@@ -403,7 +403,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
         sendIT.putExtra("JSON", newUser.toString());
         startActivity(sendIT);
 
-        //Log.d(TAG, hold.toString());
+        //Log.d(TAG, mine.toString());
 
         //testing.postIT(newUser);
         //testing.updateIT(insert, "5ac24a964bb7953fc5a4a9fc");

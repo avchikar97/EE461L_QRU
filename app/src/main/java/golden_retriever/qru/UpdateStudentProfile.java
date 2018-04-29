@@ -139,7 +139,7 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
                 firstName_edittext.setHint(R.string.update_student_firstName);
             if(result.has("lastName")){
                 String lastName = result.getString("lastName");
-                lastName_edittext.setHint("Last name");
+                lastName_edittext.setHint(lastName);
             }
             else
                 lastName_edittext.setHint(R.string.update_student_lastName);
