@@ -113,7 +113,8 @@ public class DisplayStudentProfile extends AppCompatActivity implements AsyncRes
             thePDF.fromBytes(toPDF)
                     .enableSwipe(true)
                     .enableDoubletap(true)
-                    .defaultPage(1)
+                    .swipeHorizontal(true)
+                    .defaultPage(0)
                     .enableAnnotationRendering(false)
                     .load();
             thePDF.setVisibility(View.VISIBLE);
