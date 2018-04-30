@@ -7,4 +7,4 @@
 /build
 /captures
 .externalNativeBuild
-/linkedin-sdk/build/*
+/linkedin-sdk/build/

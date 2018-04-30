@@ -34,6 +34,13 @@
                 android:text="Scan New Company" />
 
             <Button
+                android:id="@+id/generate_student_QR_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Generate My QR Code" />
+
+            <Button
                 android:id="@+id/submit_student_profile_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,24 +49,25 @@
                 android:text="Update Student Profile" />
 
             <Button
-                android:id="@+id/generate_student_QR_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Generate My QR Code" />
-
-            <Button
                 android:id="@+id/view_profile_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="View my profile"/>
+                android:layout_marginTop="16dp"
+                android:text="View my profile" />
 
             <Button
                 android:id="@+id/upload_resume_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="Upload my resume" />
 
-
+            <Button
+                android:id="@+id/log_off_student_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Log Off" />
 
         </LinearLayout>
     </ScrollView>

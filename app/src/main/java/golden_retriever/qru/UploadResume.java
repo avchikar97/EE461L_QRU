@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 public class UploadResume extends AppCompatActivity implements AsyncResponse{
     Button button;
     Button homeButton;
+    Button upload;
     TextView textView;
     private JSONObject hold;
     private String ID = "";
@@ -66,6 +67,8 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
         ID = this.getIntent().getStringExtra("ID");
         button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
+        upload = (Button)findViewById(R.id.uploadResume);
+        homeButton = (Button) findViewById(R.id.home_button);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +83,6 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
             }
         });
 
-        homeButton = (Button) findViewById(R.id.home_button);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,29 +91,49 @@ public class UploadResume extends AppCompatActivity implements AsyncResponse{
                 startActivity(sendIT);
             }
         });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(filePath == null){
+                    Toast.makeText(getApplicationContext(),"Must Select a Resume!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    try {
+                        bArray = loadFile(filePath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    addNewResume(filePath);
+                    Toast.makeText(getApplicationContext(), "Resume Uploaded", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
     }
 
+    String filePath = null;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1000 && resultCode == RESULT_OK) {
-            String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-            try
+            filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            /*try
             {
                 bArray = loadFile(filePath);
             }
             catch (IOException e) {e.printStackTrace();}
-            addNewResume(filePath);
+            addNewResume(filePath);*/
             // Do anything with file
 
             Log.d("D", filePath);
             String filename = filePath.substring(filePath.lastIndexOf("/")+1);
             File file = new File(filePath);
-            //sendMail("mjohnson082396@gmail.com", "Matt", "Johnson", file);
             textView.setText(filePath);
         }
     }
+
 
     protected void addNewResume(String resume_fp){
         if(resume_fp == null){
