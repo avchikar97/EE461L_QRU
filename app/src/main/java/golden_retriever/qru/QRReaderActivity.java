@@ -1,5 +1,6 @@
 package golden_retriever.qru;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,6 +51,7 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         JSONObject result1 = null;
         JSONObject result2 = null;
         RestAsync resumeRest = new RestAsync(this);
+        String filename = "theResume";
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
@@ -93,13 +96,11 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                         myfirstName = myProfile.getString("firstName");
                         mylastName = myProfile.getString("lastName");
                         myemail = myProfile.getString("email");
-                        myattachmentPath = myProfile.getString("resumeid");
+                        //resumeID = myProfile.getString("resumeid");
                         myprofileType = myProfile.getString("profileType");
                         myCompany = myProfile.getString("companyName");
 
-                       /* resumeID = result1.getString("resumeid");
-
-                        JSONObject resumeQuery = new JSONObject();
+                        /*JSONObject resumeQuery = new JSONObject();
                         resumeQuery.put("_id", resumeID);
 
                         resumeRest.execute(resumeQuery);
@@ -107,21 +108,20 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                         result2 = resumeRest.get();
 
                         toBeDecoded = result2.getString("resumeData");
-                        byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);
-                        Path path = Paths.get("/storage/emulated/0/Download/myResume.pdf");
-                        Files.write(path, toPDF);*/
+                        byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);*/
+
 
                     } catch(Exception e){
                         e.printStackTrace();
                     }
-                    File companyAttachment = new File(myattachmentPath);
+
+                    //File companyAttachment = new File(myattachmentPath);
+
                     String message = "Hello " + firstName + " " + lastName + ",\n"
                             + "Thank you for visiting with " + myCompany + ". \n\n" + myfirstName + "\n"
                             + mylastName + "\n" + myCompany;
                     String subject = "Your interaction with " + myfirstName + " " + mylastName + " at " + myCompany;
-                    sendMail(email, subject, message,  companyAttachment);
-
-
+                    sendMail(email, subject, message, null);
 
 
                 } else if (profileType.equals("Recruiter")){
@@ -130,10 +130,10 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                         myfirstName = yourProfile.getString("firstName");
                         mylastName = yourProfile.getString("lastName");
                         myemail = yourProfile.getString("email");
-                        myattachmentPath = yourProfile.getString("attachment");
+                        //myattachmentPath = yourProfile.getString("attachment");
                         myprofileType = yourProfile.getString("profileType");
 
-                        /*resumeID = result1.getString("resumeid");
+                        resumeID = yourProfile.getString("resumeid");
 
                         JSONObject resumeQuery = new JSONObject();
                         resumeQuery.put("_id", resumeID);
@@ -144,16 +144,20 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
 
                         toBeDecoded = result2.getString("resumeData");
                         byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);
-                        Path path = Paths.get("storage/emulated/0/Download/myResume.pdf");
-                        Files.write(path, toPDF);
-                        */
+                        FileOutputStream outputStream;
+
+                        outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                        outputStream.write(toPDF);
+                        outputStream.close();
 
                     } catch(Exception e){
                         e.printStackTrace();
                     }
 
+                    Context context = getApplicationContext();
+                    File resume = new File(context.getFilesDir(), filename);
+
                     //File resume = new File("/storage/emulated/0/Download/myResume.pdf");
-                    File resume = new File(myattachmentPath);
                     String message = "Hello " + firstName + " " + lastName + ",\n"
                             + "Thank you for visiting with me at the job fair. Attached is my resume. \n\n" + myfirstName
                             + "\n" + mylastName;

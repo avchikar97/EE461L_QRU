@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -27,6 +29,7 @@ public class DisplayStudentProfile extends AppCompatActivity implements AsyncRes
     TextView majorView;
     TextView gpaView;
     TextView specialView;
+    LinearLayout pdfLayout;
 
     public static final String TAG = "DisplayStudentProfile";
 
@@ -42,12 +45,23 @@ public class DisplayStudentProfile extends AppCompatActivity implements AsyncRes
         resumeRest.setType("GET");
         ID  = getIntent().getStringExtra("ID");
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+
         fNameView = findViewById(R.id.first_name);
         lNameView = findViewById(R.id.last_name);
         classView = findViewById(R.id.classification);
         majorView = findViewById(R.id.major);
         gpaView = findViewById(R.id.gpa);
         specialView = findViewById(R.id.special_notes);
+        pdfLayout = findViewById(R.id.pdfLayout);
+
+        double height_hold = width * 1.35;
+        int height = (int) height_hold;
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+        pdfLayout.setLayoutParams(layoutParams);
 
         JSONObject query = new JSONObject();
         try {
