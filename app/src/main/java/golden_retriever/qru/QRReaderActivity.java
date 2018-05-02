@@ -52,6 +52,7 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         JSONObject result2 = null;
         RestAsync resumeRest = new RestAsync(this);
         String filename = "theResume";
+        Context context = getApplicationContext();
 
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
@@ -144,18 +145,18 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
 
                         toBeDecoded = result2.getString("resumeData");
                         byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);
-                        FileOutputStream outputStream;
+                        File file = File.createTempFile(filename, null, context.getCacheDir());
+                        FileOutputStream outputStream = new FileOutputStream(file);
 
-                        outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                        //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
                         outputStream.write(toPDF);
                         outputStream.close();
-
+                        file.setReadable(true, false);
                     } catch(Exception e){
                         e.printStackTrace();
                     }
 
-                    Context context = getApplicationContext();
-                    File resume = new File(context.getFilesDir(), filename);
+                    File resume = new File(context.getCacheDir(), filename);
 
                     //File resume = new File("/storage/emulated/0/Download/myResume.pdf");
                     String message = "Hello " + firstName + " " + lastName + ",\n"
@@ -238,7 +239,9 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
         emailIntent.putExtra(Intent.EXTRA_TEXT, message);
         //emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:/" + file.getAbsolutePath()));
         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-        this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        //this.getBaseContext().startActivity(Intent.createChooser(emailIntent, "Send email"));
+        startActivityForResult(Intent.createChooser(emailIntent, "Send email"), 12);
     }
 
     @Override
