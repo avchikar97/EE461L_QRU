@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,14 +22,18 @@ import java.util.concurrent.ExecutionException;
 public class DisplayStudentProfile extends AppCompatActivity implements AsyncResponse{
     PDFView thePDF;
     String ID;
+    String rID;
+    String profileType;
     JSONObject hold;
     Button homeButton;
+    Button submitButton;
     TextView fNameView;
     TextView lNameView;
     TextView classView;
     TextView majorView;
     TextView gpaView;
     TextView specialView;
+    EditText recruiterNotes;
     LinearLayout pdfLayout;
 
     public static final String TAG = "DisplayStudentProfile";
@@ -39,15 +44,23 @@ public class DisplayStudentProfile extends AppCompatActivity implements AsyncRes
         setContentView(R.layout.activity_display_student_profile);
         JSONObject result = null;
         JSONObject result2 = null;
+        profileType = getIntent().getStringExtra("profiletype");
         RestAsync rest = new RestAsync(this);
         RestAsync resumeRest = new RestAsync(this);
+        final RestAsync sendMail = new RestAsync(this);
         rest.setType("GET");
         resumeRest.setType("GET");
-        ID  = getIntent().getStringExtra("ID");
+        ID  = getIntent().getStringExtra("sID");
+        if(profileType.equals("Recruiter")) {
+            rID = getIntent().getStringExtra("rID");
+        }
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
+        int total_height = displayMetrics.heightPixels;
+        double height_hold = width * 1.35;
+        int height = (int) height_hold;
 
         fNameView = findViewById(R.id.first_name);
         lNameView = findViewById(R.id.last_name);
@@ -56,9 +69,39 @@ public class DisplayStudentProfile extends AppCompatActivity implements AsyncRes
         gpaView = findViewById(R.id.gpa);
         specialView = findViewById(R.id.special_notes);
         pdfLayout = findViewById(R.id.pdfLayout);
+        submitButton = findViewById(R.id.submit_button);
+        recruiterNotes = findViewById(R.id.recruiter_notes_input);
+        if(profileType.equals("Recruiter")){
+            double calc_hold = total_height * 0.2;
+            int textHeight = (int) calc_hold;
+            recruiterNotes.setHeight(textHeight);
 
-        double height_hold = width * 1.35;
-        int height = (int) height_hold;
+            submitButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent theIntent = new Intent(DisplayStudentProfile.this, RecruiterMain.class);
+                    theIntent.putExtra("ID", rID);
+
+                    sendMail.setType("EMAIL");
+
+                    JSONObject ids = new JSONObject();
+                    try {
+                        ids.put("sid", ID)
+                            .put("rid", rID)
+                            .put("recruitNotes", recruiterNotes.getText().toString());
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    sendMail.execute(ids);
+
+                    startActivity(theIntent);
+                }
+            });
+        } else {
+            submitButton.setVisibility(View.GONE);
+            recruiterNotes.setVisibility(View.GONE);
+        }
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
         pdfLayout.setLayoutParams(layoutParams);

@@ -58,7 +58,7 @@ public class StudentMain extends AppCompatActivity {
 
                 Intent myIntent = new Intent(StudentMain.this, DisplayStudentProfile.class);
                 myIntent.putExtra("profiletype", "Student");
-                myIntent.putExtra("ID", ID);
+                myIntent.putExtra("sID", ID);
                 StudentMain.this.startActivity(myIntent);
             }
         });

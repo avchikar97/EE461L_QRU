@@ -24,7 +24,7 @@ import golden_retriever.qru.Candidate_Profile;
 
 public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
     public static final String TAG = "RestClient";
-    private static final String NODE_IP = "35.193.21.137";
+    private static final String NODE_IP = "35.224.244.37";
     //"35.194.32.181"
 
     private String type;
@@ -57,6 +57,8 @@ public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
             hold = postIT(yeah);
         } else if(type.equals("UPDATE")){
             hold = updateIT(yeah, id);
+        } else if(type.equals("EMAIL")){
+            hold = emailIT(yeah);
         }
 
         return hold;
@@ -207,5 +209,58 @@ public class RestAsync extends AsyncTask<JSONObject, Void, JSONObject> {
         }
 
         return theResult;
+    }
+
+    public JSONObject emailIT(final JSONObject insert) {
+        // All your networking logic
+        // should be here
+        String myUrl = "http://" + NODE_IP + ":8080/email/";
+        JSONObject theResult = null;
+
+        try {
+            myUrl = myUrl + insert.getString("rid") + '/' + insert.getString("sid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try{
+            URL url = new URL(myUrl);
+            HttpURLConnection httpURLConnection=(HttpURLConnection)url.openConnection();
+            httpURLConnection.setRequestMethod("POST");
+
+            httpURLConnection.setRequestProperty("User-Agent","Mozilla/5.0 ( compatible ) ");
+            httpURLConnection.setRequestProperty("Accept","*/*");
+
+            DataOutputStream writer = new DataOutputStream(httpURLConnection.getOutputStream());
+            writer.writeBytes(insert.getString("recruitNotes"));
+            writer.flush();
+            writer.close();
+
+            InputStream inputStream = httpURLConnection.getInputStream();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+            String result="";
+            String line="";
+            while((line = bufferedReader.readLine())!= null)
+                result += line;
+            bufferedReader.close();
+            inputStream.close();
+            httpURLConnection.disconnect();
+            Log.d(TAG, result);
+            try{
+                theResult = new JSONObject();
+                theResult.put("Message", result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return theResult;
+
     }
 }

@@ -165,6 +165,21 @@
                     android:layout_height="match_parent" />
             </LinearLayout>
 
+            <EditText
+                android:id="@+id/recruiter_notes_input"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:inputType="text"/>
+
+            <Button
+                android:id="@+id/submit_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="End interview and exchange information"
+                android:textStyle="bold"/>
+
             <Button
                 android:id="@+id/home_button"
                 style="?android:textAppearanceSmall"

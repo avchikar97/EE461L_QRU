@@ -61,115 +61,122 @@ public class QRReaderActivity extends AppCompatActivity implements AsyncResponse
                         this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
             } else {
                 String ID = result.getContents();
-                String firstName = "";
-                String lastName = "";
-                String email = "";
-                String attachmentPath = "";
-                String profileType = "";
 
+                Intent myIntent = new Intent(QRReaderActivity.this, DisplayStudentProfile.class);
+                myIntent.putExtra("profiletype", "Recruiter");
+                myIntent.putExtra("rID", myID);
+                myIntent.putExtra("sID", ID);
+                startActivity(myIntent);
 
-                // profile of activity
-                String myfirstName = "";
-                String mylastName = "";
-                String myemail = "";
-                String myattachmentPath = "";
-                String myprofileType = "";
-                String myCompany = "";
+//                String firstName = "";
+//                String lastName = "";
+//                String email = "";
+//                String attachmentPath = "";
+//                String profileType = "";
+//
+//
+//                // profile of activity
+//                String myfirstName = "";
+//                String mylastName = "";
+//                String myemail = "";
+//                String myattachmentPath = "";
+//                String myprofileType = "";
+//                String myCompany = "";
+//
+//
 
-
-
-                JSONObject json = getProfile(ID, "yours");
-                try{
-                    firstName = json.getString("firstName");
-                    lastName = json.getString("lastName");
-                    email = json.getString("email");
-                    attachmentPath = json.getString("attachment");
-                    profileType = json.getString("profileType");
-                } catch(Exception e){
-                    e.printStackTrace();
-                }
-                if(profileType.equals("Student")) {
-                    // send message from recruiter
-
-                    JSONObject myProfile = getProfile(myID, "mine");
-
-                    try{
-                        myfirstName = myProfile.getString("firstName");
-                        mylastName = myProfile.getString("lastName");
-                        myemail = myProfile.getString("email");
-                        //resumeID = myProfile.getString("resumeid");
-                        myprofileType = myProfile.getString("profileType");
-                        myCompany = myProfile.getString("companyName");
-
-                        /*JSONObject resumeQuery = new JSONObject();
-                        resumeQuery.put("_id", resumeID);
-
-                        resumeRest.execute(resumeQuery);
-
-                        result2 = resumeRest.get();
-
-                        toBeDecoded = result2.getString("resumeData");
-                        byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);*/
-
-
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-
-                    //File companyAttachment = new File(myattachmentPath);
-
-                    String message = "Hello " + firstName + " " + lastName + ",\n"
-                            + "Thank you for visiting with " + myCompany + ". \n\n" + myfirstName + "\n"
-                            + mylastName + "\n" + myCompany;
-                    String subject = "Your interaction with " + myfirstName + " " + mylastName + " at " + myCompany;
-                    sendMail(email, subject, message, null);
-
-
-                } else if (profileType.equals("Recruiter")){
-                    JSONObject yourProfile = getProfile(ID, "yours");
-                    try{
-                        myfirstName = yourProfile.getString("firstName");
-                        mylastName = yourProfile.getString("lastName");
-                        myemail = yourProfile.getString("email");
-                        //myattachmentPath = yourProfile.getString("attachment");
-                        myprofileType = yourProfile.getString("profileType");
-
-                        resumeID = yourProfile.getString("resumeid");
-
-                        JSONObject resumeQuery = new JSONObject();
-                        resumeQuery.put("_id", resumeID);
-
-                        resumeRest.execute(resumeQuery);
-
-                        result2 = resumeRest.get();
-
-                        toBeDecoded = result2.getString("resumeData");
-                        byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);
-                        File file = File.createTempFile(filename, null, context.getCacheDir());
-                        FileOutputStream outputStream = new FileOutputStream(file);
-
-                        //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-                        outputStream.write(toPDF);
-                        outputStream.close();
-                        file.setReadable(true, false);
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-
-                    File resume = new File(context.getCacheDir(), filename);
-
-                    //File resume = new File("/storage/emulated/0/Download/myResume.pdf");
-                    String message = "Hello " + firstName + " " + lastName + ",\n"
-                            + "Thank you for visiting with me at the job fair. Attached is my resume. \n\n" + myfirstName
-                            + "\n" + mylastName;
-                    String subject = "Your interaction with " + myfirstName + " " + mylastName;
-                    sendMail(email, subject, message, resume);
-                }
-
-                String message = "You just met " + firstName + " " + lastName +  "!";
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-
-
+//                JSONObject json = getProfile(ID, "yours");
+//                try{
+//                    firstName = json.getString("firstName");
+//                    lastName = json.getString("lastName");
+//                    email = json.getString("email");
+//                    attachmentPath = json.getString("attachment");
+//                    profileType = json.getString("profileType");
+//                } catch(Exception e){
+//                    e.printStackTrace();
+//                }
+//                if(profileType.equals("Student")) {
+//                    // send message from recruiter
+//
+//                    JSONObject myProfile = getProfile(myID, "mine");
+//
+//                    try{
+//                        myfirstName = myProfile.getString("firstName");
+//                        mylastName = myProfile.getString("lastName");
+//                        myemail = myProfile.getString("email");
+//                        //resumeID = myProfile.getString("resumeid");
+//                        myprofileType = myProfile.getString("profileType");
+//                        myCompany = myProfile.getString("companyName");
+//
+//                        /*JSONObject resumeQuery = new JSONObject();
+//                        resumeQuery.put("_id", resumeID);
+//
+//                        resumeRest.execute(resumeQuery);
+//
+//                        result2 = resumeRest.get();
+//
+//                        toBeDecoded = result2.getString("resumeData");
+//                        byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);*/
+//
+//
+//                    } catch(Exception e){
+//                        e.printStackTrace();
+//                    }
+//
+//                    //File companyAttachment = new File(myattachmentPath);
+//
+//                    String message = "Hello " + firstName + " " + lastName + ",\n"
+//                            + "Thank you for visiting with " + myCompany + ". \n\n" + myfirstName + "\n"
+//                            + mylastName + "\n" + myCompany;
+//                    String subject = "Your interaction with " + myfirstName + " " + mylastName + " at " + myCompany;
+//                    sendMail(email, subject, message, null);
+//
+//
+//                } else if (profileType.equals("Recruiter")){
+//                    JSONObject yourProfile = getProfile(ID, "yours");
+//                    try{
+//                        myfirstName = yourProfile.getString("firstName");
+//                        mylastName = yourProfile.getString("lastName");
+//                        myemail = yourProfile.getString("email");
+//                        //myattachmentPath = yourProfile.getString("attachment");
+//                        myprofileType = yourProfile.getString("profileType");
+//
+//                        resumeID = yourProfile.getString("resumeid");
+//
+//                        JSONObject resumeQuery = new JSONObject();
+//                        resumeQuery.put("_id", resumeID);
+//
+//                        resumeRest.execute(resumeQuery);
+//
+//                        result2 = resumeRest.get();
+//
+//                        toBeDecoded = result2.getString("resumeData");
+//                        byte[] toPDF = Base64.decode(toBeDecoded, Base64.DEFAULT);
+//                        File file = File.createTempFile(filename, null, context.getCacheDir());
+//                        FileOutputStream outputStream = new FileOutputStream(file);
+//
+//                        //outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+//                        outputStream.write(toPDF);
+//                        outputStream.close();
+//                        file.setReadable(true, false);
+//                    } catch(Exception e){
+//                        e.printStackTrace();
+//                    }
+//
+//                    File resume = new File(context.getCacheDir(), filename);
+//
+//                    //File resume = new File("/storage/emulated/0/Download/myResume.pdf");
+//                    String message = "Hello " + firstName + " " + lastName + ",\n"
+//                            + "Thank you for visiting with me at the job fair. Attached is my resume. \n\n" + myfirstName
+//                            + "\n" + mylastName;
+//                    String subject = "Your interaction with " + myfirstName + " " + mylastName;
+//                    sendMail(email, subject, message, resume);
+//                }
+//
+//                String message = "You just met " + firstName + " " + lastName +  "!";
+//                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+//
+//
             }
         } else{
             super.onActivityResult(requestCode, resultCode, data);
