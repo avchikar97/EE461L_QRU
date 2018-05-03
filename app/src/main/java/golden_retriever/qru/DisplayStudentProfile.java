@@ -20,21 +20,21 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 public class DisplayStudentProfile extends AppCompatActivity implements AsyncResponse{
-    PDFView thePDF;
-    String ID;
-    String rID;
-    String profileType;
-    JSONObject hold;
-    Button homeButton;
-    Button submitButton;
-    TextView fNameView;
-    TextView lNameView;
-    TextView classView;
-    TextView majorView;
-    TextView gpaView;
-    TextView specialView;
-    EditText recruiterNotes;
-    LinearLayout pdfLayout;
+    private PDFView thePDF;
+    private String ID;
+    private String rID;
+    private String profileType;
+    private JSONObject hold;
+    private Button homeButton;
+    private Button submitButton;
+    private TextView fNameView;
+    private TextView lNameView;
+    private TextView classView;
+    private TextView majorView;
+    private TextView gpaView;
+    private TextView specialView;
+    private EditText recruiterNotes;
+    private LinearLayout pdfLayout;
 
     public static final String TAG = "DisplayStudentProfile";
 
