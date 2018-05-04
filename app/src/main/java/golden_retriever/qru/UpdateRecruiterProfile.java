@@ -90,7 +90,7 @@ public class UpdateRecruiterProfile extends AppCompatActivity implements AsyncRe
             if(result.has(label)){
                 String current_result = "";
                 try {
-                    current_result = result.getString(label);
+                    current_result = fieldDefaults[i] + ": " + result.getString(label);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

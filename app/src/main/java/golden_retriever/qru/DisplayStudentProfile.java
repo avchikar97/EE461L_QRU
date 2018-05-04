@@ -181,6 +181,8 @@ public class DisplayStudentProfile extends AppCompatActivity implements AsyncRes
                 @Override
                 public void onClick(View view) {
                     Intent theIntent = new Intent(DisplayStudentProfile.this, StudentMain.class);
+                    if(profileType.equals("Recruiter"))
+                        theIntent = new Intent(DisplayStudentProfile.this, RecruiterMain.class);
                     theIntent.putExtra("ID", ID);
                     startActivity(theIntent);
                 }

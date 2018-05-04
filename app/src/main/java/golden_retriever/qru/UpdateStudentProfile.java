@@ -136,25 +136,25 @@ public class UpdateStudentProfile extends AppCompatActivity implements AsyncResp
                 classification_spinner.setSelection(0);
             }
             if(result.has("firstName")){
-                String firstName = result.getString("firstName");
+                String firstName = "First name: " +  result.getString("firstName");
                 firstName_edittext.setHint(firstName);
             }
             else
                 firstName_edittext.setHint(R.string.update_student_firstName);
             if(result.has("lastName")){
-                String lastName = result.getString("lastName");
+                String lastName = "Last name: " + result.getString("lastName");
                 lastName_edittext.setHint(lastName);
             }
             else
                 lastName_edittext.setHint(R.string.update_student_lastName);
             if(result.has("gpa")){
-                String GPA = result.getString("gpa");
+                String GPA = "GPA: " + result.getString("gpa");
                 gpa_edittext.setHint(GPA);
             }
             else
                 gpa_edittext.setHint(getString(R.string.update_student_gpa));
             if(result.has("specNotes")){
-                String specNotes = result.getString("specNotes");
+                String specNotes = "Special notes: " + result.getString("specNotes");
                 special_notes_edittext.setHint(specNotes);
             }
             else
