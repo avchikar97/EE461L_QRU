@@ -37,6 +37,7 @@ public class UpdateRecruiterProfile extends AppCompatActivity implements AsyncRe
     private EditText profile_company_about;
     private EditText profile_positions;
     private Button submit_profile_btn;
+    private Button cancel_btn;
 
     private String ID;
     private JSONObject hold;
@@ -82,6 +83,7 @@ public class UpdateRecruiterProfile extends AppCompatActivity implements AsyncRe
         profile_positions = (EditText) findViewById(R.id.recruiter_update_profile_positions);
         fields[5] = profile_positions;
         submit_profile_btn = (Button) findViewById(R.id.submit_recruiter_profile_btn);
+        cancel_btn = (Button) findViewById(R.id.cancel_btn);
 
         for(int i = 0; i < NUM_FIELDS; i++){
             String label = mongoFields[i];
@@ -125,6 +127,16 @@ public class UpdateRecruiterProfile extends AppCompatActivity implements AsyncRe
                 Recruiter_Profile new_recruiter = new Recruiter_Profile("0", "dummySalt", "dummyPass",
                         fieldResults[0], fieldResults[1], "dummyEmail", fieldResults[2], fieldResults[4], fieldResults[5]);
 
+                Intent myIntent = new Intent(UpdateRecruiterProfile.this, RecruiterMain.class);
+                myIntent.putExtra("profiletype", "Recruiter");
+                myIntent.putExtra("ID", ID);
+                UpdateRecruiterProfile.this.startActivity(myIntent);
+            }
+        });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 Intent myIntent = new Intent(UpdateRecruiterProfile.this, RecruiterMain.class);
                 myIntent.putExtra("profiletype", "Recruiter");
                 myIntent.putExtra("ID", ID);
