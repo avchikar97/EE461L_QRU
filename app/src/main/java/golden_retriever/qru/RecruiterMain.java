@@ -10,7 +10,6 @@ import android.widget.TextView;
 public class RecruiterMain extends AppCompatActivity {
     private Button updateProfileButton;
     private Button newScanButton;
-    private Button generateQRCodeButton;
     private TextView welcomeMessage;
     private Button LogOffButton;
 
@@ -46,16 +45,6 @@ public class RecruiterMain extends AppCompatActivity {
             }
         });
 
-        generateQRCodeButton = (Button) findViewById(R.id.generate_recruiter_QR_btn);
-        generateQRCodeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent myIntent = new Intent(RecruiterMain.this, QRGeneratorActivity.class);
-                myIntent.putExtra("profiletype", "Recruiter");
-                myIntent.putExtra("ID", ID);
-                RecruiterMain.this.startActivity(myIntent);
-            }
-        });
 
         LogOffButton = (Button) findViewById(R.id.log_off_recruiter_button);
         LogOffButton.setOnClickListener(new View.OnClickListener(){

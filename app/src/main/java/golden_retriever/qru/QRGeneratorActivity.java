@@ -19,7 +19,7 @@ package golden_retriever.qru;
 public class QRGeneratorActivity extends AppCompatActivity {
     EditText text;
     Button gen_btn;
-    ImageView image;
+    private ImageView image;
     String text2Qr;
 
     @Override

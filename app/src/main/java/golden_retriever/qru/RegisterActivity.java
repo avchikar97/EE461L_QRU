@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity implements AsyncResponse
     private LISessionManager mLISessionManager;
 
 
-    JSONObject hold = null;
+    private JSONObject hold = null;
 
     public static final String TAG = "RegClient";
 

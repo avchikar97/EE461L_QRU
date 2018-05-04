@@ -479,7 +479,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
     }
 
-    void generatePackageHash(){
+    private void generatePackageHash(){
         try {
             PackageInfo info = getPackageManager().getPackageInfo("golden_retriever.qru",
                     PackageManager.GET_SIGNATURES);

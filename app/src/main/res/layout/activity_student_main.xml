@@ -26,12 +26,6 @@
                 android:layout_height="wrap_content"
                 android:text="Welcome to your candidate hub!"/>
 
-            <Button
-                android:id="@+id/student_scan_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Scan New Company" />
 
             <Button
                 android:id="@+id/generate_student_QR_btn"

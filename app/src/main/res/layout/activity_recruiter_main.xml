@@ -33,19 +33,13 @@
                 android:layout_marginTop="16dp"
                 android:text="Scan New Student" />
 
-            <Button
-                android:id="@+id/generate_recruiter_QR_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Generate My QR Code!" />
 
             <Button
                 android:id="@+id/update_recruiter_profile_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Update Company Profile" />
+                android:text="Update Recruiter Profile" />
 
             <Button
                 android:id="@+id/log_off_recruiter_button"
